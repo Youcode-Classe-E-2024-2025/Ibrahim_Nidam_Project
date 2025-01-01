@@ -63,6 +63,30 @@
                 0% { transform: rotate(6deg); }
                 100% { transform: rotate(-6deg); }
             }
+
+            .button {
+            transition: box-shadow 0.13s ease-in-out;
+            }
+            .button:active {
+                box-shadow: none;
+            }
+            .button__content {
+                box-shadow: inset 0px -8px 0px #ffffff, 0px -8px 0px #ffffff;
+                transition: box-shadow 0.13s ease-in-out;
+            }
+            .button:active .button__content {
+                box-shadow: none;
+            }
+            .button__text {
+                transform: translate3d(0px, -4px, 0px);
+                transition: transform 0.13s ease-in-out;
+                background-clip: text;
+                color: transparent;
+                text-shadow: 2px 2px 3px rgba(255, 255, 255, 0.5);
+            }
+            .button:active .button__text {
+                transform: translate3d(0px, 0px, 0px);
+            }
         </style>
 
     </head>
