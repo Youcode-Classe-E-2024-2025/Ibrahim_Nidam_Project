@@ -1,0 +1,17 @@
+{
+    "name": "composer/autoload",
+    "authors": [
+        {
+            "name": "Ibrahim-Nidam",
+            "email": "ibrahim.nidam22@gmail.com"
+        }
+    ],
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "Controller\\": "src/controller/",
+            "Model\\": "src/model/",
+            "Connection\\" : "src/connection/"
+        }
+    }
+}

@@ -1,5 +1,10 @@
 <?php
 
+    namespace Connection;
+
+    use PDO;
+    use PDOException;
+
     class Database {
         private $host = "localhost";
         private $dbname = "Kanban_Project_db";
@@ -8,7 +13,7 @@
         public $db;
 
         public function __construct(){
-            $this -> startSession();
+            $this->startSession();
         }
 
         private function startSession(){
@@ -31,8 +36,9 @@
                     $this->db->exec("CREATE DATABASE $this->dbname");
                     $this->db->exec("USE $this->dbname");
                     $this->initializeDatabase();
+                    
                 } else {
-                    $this->db-> exec("USE $this->dbname");
+                    $this->db->exec("USE $this->dbname");
                 }
 
                 return $this->db;
@@ -44,8 +50,11 @@
 
         private function initializeDatabase(){
             try{
-                $sql = file_get_contents('assets/database/script.sql');
-                $this->db-exec($sql);
+                $sql = file_get_contents(__DIR__ .'/../../assets/database/script.sql');
+                if ($sql === false) {
+                    throw new PDOException("Unable to read script.sql file.");
+                }
+                $this->db->exec($sql);
             } catch (PDOException $e){
                 error_log("Database Initialization error: " . $e->getMessage());
                 die("An error occurred. Please try again later.");
