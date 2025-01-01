@@ -61,19 +61,30 @@ La plateforme vise à faciliter la gestion et la collaboration des équipes en o
      php -r "unlink('composer-setup.php');"
 
      REM Déplacer composer.phar dans un répertoire du PATH (optionnel pour un usage global)
-     move composer.phar C:\bin
+     move composer.phar C:\bin\composer.phar
      ```
 
-   - Si Composer est ajouté au PATH (Environnement système), vous pouvez utiliser la commande `composer` directement. Sinon, utilisez `php composer.phar`.
+    - Ajoutez le dossier `C:\bin` à votre variable d'environnement PATH pour utiliser Composer globalement.
 
-6. **Installer les dépendances PHP** :
-   - Dans le terminal, exécutez :  
-     `php composer install`
+6. **Initialiser Composer dans le projet** :
+   - Dans le dossier racine du projet, exécutez :
 
-7. **Configurer Laragon pour le serveur local** :
-   - Lancez **Laragon** et démarrez les services **Apache** et **MySQL**, en cliquant sur **Start All**.
+     ```cmd
+     composer init
+     ```
+   - Suivez les instructions pour générer un fichier `composer.json` et accepter **psr-4**.
 
-8. **Exécuter le projet** :
+7. **Installer les dépendances PHP** :
+   - Une fois le fichier `composer.json` généré, installez les dépendances en exécutant :
+
+     ```cmd
+     composer install
+     ```
+
+8. **Configurer Laragon pour le serveur local** :
+   - Lancez **Laragon** et démarrez les services **Apache** et **MySQL** en cliquant sur **Start All**.
+
+9. **Exécuter le projet** :
    - Une fois les services lancés dans Laragon, cliquez sur le bouton **Web** pour accéder à `http://localhost/Ibrahim_Nidam_Project` dans votre navigateur.
 
 
