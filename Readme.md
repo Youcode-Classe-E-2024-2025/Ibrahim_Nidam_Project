@@ -22,6 +22,7 @@ La plateforme vise à faciliter la gestion et la collaboration des équipes en o
 ### Prérequis
 * **Node.js** et **npm** installés (téléchargez [Node.js](https://nodejs.org/)).
 * **Laragon** installé (téléchargez [Laragon](https://laragon.org/download/)).
+* **PHP** installé et ajouté au PATH (Environnement système).
 
 ### Étapes d’installation
 
@@ -34,21 +35,45 @@ La plateforme vise à faciliter la gestion et la collaboration des équipes en o
    - Le chemin de votre projet devrait être `C:\laragon\www\Ibrahim_Nidam_Project`.
 
 3. **Configurer la base de données** :
-   - Faites un click droit sur **Laragon**, puis allez dans **Tools** > **Quick Add** et téléchargez **phpMyAdmin** et **MySQL**.
+   - Faites un clic droit sur **Laragon**, puis allez dans **Tools** > **Quick Add** et téléchargez **phpMyAdmin** et **MySQL**.
    - Ouvrir **phpMyAdmin** via Laragon :
-     - Dans Laragon, cliquez sur le bouton **Database** pour accéder à phpMyAdmin (username = `root` et mode de passe est vide).
-     - La base de données est automatiquement créez ou vous pouvez Créez une base de données `Kanban_Project_db` et importez le fichier `script.sql` (disponible dans le dossier `/database/`).
-
+     - Dans Laragon, cliquez sur le bouton **Database** pour accéder à phpMyAdmin (username = `root` et mot de passe est vide).
+     - Créez une base de données `Kanban_Project_db` et importez le fichier `script.sql` (disponible dans le dossier `/database/`).
 
 4. **Installer les dépendances Node.js** :
    - Ouvrez un terminal dans le dossier du projet cloné.
-   - Exécutez :  `npm install` or `npm i`
+   - Exécutez :  `npm install` ou `npm i`
 
-5. **Configurer Laragon pour le serveur local** :
-   - Lancez **Laragon** et démarrez les services **Apache** et **MySQL**,en Clickant sur **Start All**.
+5. **Installer Composer** :
+   - Ouvrez un terminal dans le dossier du projet cloné et exécutez les commandes suivantes :
 
+     ```cmd
+     REM Télécharger l'installateur Composer
+     php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
 
-6. **Exécuter le projet** :
+     REM Vérifier le hash SHA-384 de l'installateur
+     php -r "if (hash_file('sha384', 'composer-setup.php') === 'dac665fdc30fdd8ec78b38b9800061b4150413ff2e3b6f88543c636f7cd84f6db9189d43a81e5503cda447da73c7e5b6') echo Installer verified && exit; echo Installer corrupt && del composer-setup.php && exit /b 1"
+
+     REM Exécuter l'installateur
+     php composer-setup.php
+
+     REM Supprimer le script d'installation
+     php -r "unlink('composer-setup.php');"
+
+     REM Déplacer composer.phar dans un répertoire du PATH (optionnel pour un usage global)
+     move composer.phar C:\bin
+     ```
+
+   - Si Composer est ajouté au PATH (Environnement système), vous pouvez utiliser la commande `composer` directement. Sinon, utilisez `php composer.phar`.
+
+6. **Installer les dépendances PHP** :
+   - Dans le terminal, exécutez :  
+     `php composer install`
+
+7. **Configurer Laragon pour le serveur local** :
+   - Lancez **Laragon** et démarrez les services **Apache** et **MySQL**, en cliquant sur **Start All**.
+
+8. **Exécuter le projet** :
    - Une fois les services lancés dans Laragon, cliquez sur le bouton **Web** pour accéder à `http://localhost/Ibrahim_Nidam_Project` dans votre navigateur.
 
 
