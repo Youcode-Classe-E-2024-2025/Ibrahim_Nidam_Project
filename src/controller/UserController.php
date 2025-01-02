@@ -27,7 +27,18 @@
                 if(!preg_match("/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/", $password)){
                     exit;
                 }
-                
+
+                $password = password_hash($password, PASSWORD_BCRYPT);
+
+                $userModel = new UserModel();
+                $userModel->create("person", [
+                    "name" => $name,
+                    "email" => $email,
+                    "password" => $password
+                ]);
+
+                header("Location: ?action=login");
+                exit;
             }
             
             $csrf_token = CSRF::getToken();
