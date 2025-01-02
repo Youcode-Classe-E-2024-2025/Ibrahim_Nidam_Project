@@ -3,6 +3,7 @@
 <body class="flex items-center justify-center min-h-screen bg-cover bg-center bg-no-repeat" style="background-image: url('https://gratisography.com/wp-content/uploads/2024/11/gratisography-augmented-reality-1170x780.jpg');">
     <div class="relative z-10 w-full max-w-md p-8 bg-white/10 border border-white/50 rounded-lg backdrop-blur-md">
         <form method="POST" action="?action=signup" class="space-y-6">
+            <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($csrf_token) ?>">
             <h2 class="text-2xl font-bold text-white">Register</h2>
             <div class="relative border-b-2 border-gray-300">
                 <input id="signup-name" type="text" name="full-name" required class="w-full h-10 bg-transparent border-none outline-none text-white placeholder-transparent peer" />

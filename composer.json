@@ -11,7 +11,8 @@
         "psr-4": {
             "Controller\\": "src/controller/",
             "Model\\": "src/model/",
-            "Connection\\" : "src/connection/"
+            "Connection\\" : "src/connection/",
+            "Utilities\\" : "src/utilities"
         }
     }
 }
