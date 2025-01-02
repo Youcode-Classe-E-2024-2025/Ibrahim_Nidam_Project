@@ -3,5 +3,9 @@
     use Model\MainModel;
 
     class UserModel extends MainModel{
-        private $table = "Person";
+        private $table = "person";
+
+        public function getAllUsers(){
+            return $this->read($this->table);
+        }
     }

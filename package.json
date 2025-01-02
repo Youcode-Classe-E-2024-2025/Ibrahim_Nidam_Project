@@ -5,7 +5,7 @@
     "tailwindcss": "^3.4.17"
   },
   "scripts": {
-    "dev": "npx tailwindcss -i ./assets/css/style.css -o ./assets/css/tailwind/output.css --watch",
+    "dev": "npx tailwindcss --content \"./**/*.php\" \"./**/*.js\" -i ./assets/css/style.css -o ./assets/css/tailwind/output.css --watch",
     "build": "postcss assets/css/tailwind/input.css -o assets/css/tailwind/output.css"
   }
 }
