@@ -6,6 +6,11 @@
 
     class UserController extends MainController {
 
+        public function signup(){
+            
+            require_once "../src/view/sections/register.php";
+        }
+
         public function login(){
             
             if($_SERVER["REQUEST_METHOD"] === "POST"){

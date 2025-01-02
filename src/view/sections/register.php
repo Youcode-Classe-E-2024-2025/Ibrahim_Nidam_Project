@@ -40,7 +40,7 @@
                 </div>
             </button>
             <div class="text-center text-white">
-                <p>Already have an account? <a href="login.php" class="underline hover:no-underline">Login</a></p>
+                <p>Already have an account? <a href="?action=login" class="underline hover:no-underline">Login</a></p>
             </div>
         </form>
     </div>

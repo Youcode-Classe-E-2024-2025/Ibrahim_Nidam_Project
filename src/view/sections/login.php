@@ -35,7 +35,7 @@
           </div>
       </button>
         <div class="text-center text-white">
-            <p>Don't have an account? <a href="?action=register.php" class="underline hover:no-underline">Register</a></p>
+            <p>Don't have an account? <a href="?action=signup" class="underline hover:no-underline">Register</a></p>
         </div>
     </div>
 
