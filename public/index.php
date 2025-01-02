@@ -1,6 +1,8 @@
 <?php
     require "../vendor/autoload.php";
-    use Controller\UserController;
+
+use Controller\PageController;
+use Controller\UserController;
     
     session_start();
 
@@ -15,6 +17,11 @@
         exit;
     }
 
+    if(!in_array($action, ["login", "signup"]) && !isset($_SESSION["user"])){
+        header("Location: index.php?action=login");
+        exit;
+    }
+
     $action = $action ?? "login";
 
     $controller = null;
@@ -25,9 +32,14 @@
             $controller = new UserController();
             $controller->$action();
             break;
+        case "home":
+            $controller = new PageController();
+            $controller->$action();
+            break;
         case "logout":
             $controller = new UserController();
             $controller->$action();
+            break;
         default:
         http_response_code(404);
         header("Location: ../src/view/sections/404.php");
