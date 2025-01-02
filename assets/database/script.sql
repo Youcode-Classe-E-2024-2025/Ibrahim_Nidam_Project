@@ -1,5 +1,4 @@
 CREATE DATABASE IF NOT EXISTS Kanban_Project_db;
-
 USE Kanban_Project_db;
 
 CREATE TABLE IF NOT EXISTS Person (
@@ -24,6 +23,7 @@ CREATE TABLE IF NOT EXISTS Tag (
 CREATE TABLE IF NOT EXISTS Project (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
+    description TEXT,
     isPublic BOOLEAN DEFAULT FALSE,
     manager_id INT NOT NULL,
     completion_percentage INT DEFAULT 0,
@@ -75,11 +75,11 @@ INSERT INTO Tag (name) VALUES
 ('Improvement'),
 ('Research');
 
-INSERT INTO Project (name, isPublic, manager_id, completion_percentage) VALUES
-('Kanban Board Project', TRUE, 1, 0),
-('E-commerce App', FALSE, 1, 0),
-('Mobile Game', TRUE, 1, 0),
-('Chat Application', FALSE, 1, 0);
+INSERT INTO Project (name, description, isPublic, manager_id, completion_percentage) VALUES
+('Kanban Board Project', 'A board to manage tasks in columns', TRUE, 1, 0),
+('E-commerce App', 'An application to handle online sales and checkouts', FALSE, 1, 0),
+('Mobile Game', 'A fun casual game for iOS and Android platforms', TRUE, 1, 0),
+('Chat Application', 'A real-time chat app with notifications', FALSE, 1, 0);
 
 INSERT INTO Task (title, description, startDate, endDate, status, tag_id, category_id, project_id) VALUES
 ('Set Up Repository', 'Initialize Git repository and set up project structure', '2025-01-02', '2025-01-05', 'TODO', 3, 1, 1),

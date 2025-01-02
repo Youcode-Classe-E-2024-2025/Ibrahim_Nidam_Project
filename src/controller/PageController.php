@@ -2,8 +2,14 @@
     namespace Controller;
 
     class PageController extends MainController {
-        
+        protected $MainController;
+
+        public function __construct(){
+            $this->MainController = new MainController();
+        }
+
         public function home(){
-            require_once "../src/view/pojects.php";
+            $projects = $this->MainController->displayProjects();
+            require_once "../src/view/projects.php";
         }
     }
