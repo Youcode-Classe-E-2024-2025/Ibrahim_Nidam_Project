@@ -2,31 +2,35 @@
 
 <body class="flex items-center justify-center min-h-screen bg-cover bg-center bg-no-repeat" style="background-image: url('https://gratisography.com/wp-content/uploads/2024/11/gratisography-augmented-reality-1170x780.jpg');">
     <div class="relative z-10 w-full max-w-md p-8 bg-white/10 border border-white/50 rounded-lg backdrop-blur-md">
-        <form class="space-y-6">
+        <form method="POST" action="?action=signup" class="space-y-6">
             <h2 class="text-2xl font-bold text-white">Register</h2>
             <div class="relative border-b-2 border-gray-300">
-                <input type="text" required class="w-full h-10 bg-transparent border-none outline-none text-white placeholder-transparent peer" />
-                <label class="absolute top-1/2 left-0 text-white text-base transform -translate-y-1/2 peer-placeholder-shown:translate-y-1/2 peer-placeholder-shown:text-base peer-focus:translate-y-[-120%] peer-focus:text-sm transition-all">
+                <input id="signup-name" type="text" name="full-name" required class="w-full h-10 bg-transparent border-none outline-none text-white placeholder-transparent peer" />
+                <label for="signup-name" class="input-label absolute top-1/2 left-0 text-white text-base transform -translate-y-1/2 peer-placeholder-shown:translate-y-1/2 peer-placeholder-shown:text-base peer-focus:translate-y-[-120%] peer-focus:text-sm transition-all">
                     Full Name
                 </label>
+                <span class="error-span text-red-500 text-sm hidden"></span>
             </div>
             <div class="relative border-b-2 border-gray-300">
-                <input type="email" required class="w-full h-10 bg-transparent border-none outline-none text-white placeholder-transparent peer" />
-                <label class="absolute top-1/2 left-0 text-white text-base transform -translate-y-1/2 peer-placeholder-shown:translate-y-1/2 peer-placeholder-shown:text-base peer-focus:translate-y-[-120%] peer-focus:text-sm transition-all">
+                <input id="signup-email" name="email" type="email" required class="w-full h-10 bg-transparent border-none outline-none text-white placeholder-transparent peer" />
+                <label for="signup-email" class="input-label absolute top-1/2 left-0 text-white text-base transform -translate-y-1/2 peer-placeholder-shown:translate-y-1/2 peer-placeholder-shown:text-base peer-focus:translate-y-[-120%] peer-focus:text-sm transition-all">
                     Email Address
                 </label>
+                    <span class="error-span text-red-500 text-sm hidden"></span>
             </div>
             <div class="relative border-b-2 border-gray-300">
-                <input type="password" required class="w-full h-10 bg-transparent border-none outline-none text-white placeholder-transparent peer" />
-                <label class="absolute top-1/2 left-0 text-white text-base transform -translate-y-1/2 peer-placeholder-shown:translate-y-1/2 peer-placeholder-shown:text-base peer-focus:translate-y-[-120%] peer-focus:text-sm transition-all">
+                <input id="signup-password" name="password" type="password" required class="w-full h-10 bg-transparent border-none outline-none text-white placeholder-transparent peer" />
+                <label for="signup-password" class="input-label absolute top-1/2 left-0 text-white text-base transform -translate-y-1/2 peer-placeholder-shown:translate-y-1/2 peer-placeholder-shown:text-base peer-focus:translate-y-[-120%] peer-focus:text-sm transition-all">
                     Password
                 </label>
+                    <span class="error-span text-red-500 text-sm hidden"></span>
             </div>
             <div class="relative border-b-2 border-gray-300">
-                <input type="password" required class="w-full h-10 bg-transparent border-none outline-none text-white placeholder-transparent peer" />
-                <label class="absolute top-1/2 left-0 text-white text-base transform -translate-y-1/2 peer-placeholder-shown:translate-y-1/2 peer-placeholder-shown:text-base peer-focus:translate-y-[-120%] peer-focus:text-sm transition-all">
+                <input id="password-confirmed" name="password-confirmed" type="password" required class="w-full h-10 bg-transparent border-none outline-none text-white placeholder-transparent peer" />
+                <label for="password-confirmed" class="input-label absolute top-1/2 left-0 text-white text-base transform -translate-y-1/2 peer-placeholder-shown:translate-y-1/2 peer-placeholder-shown:text-base peer-focus:translate-y-[-120%] peer-focus:text-sm transition-all">
                     Confirm Password
                 </label>
+                <span class="error-span text-red-500 text-sm hidden"></span>
             </div>
             <div class="flex items-center text-white">
                 <label class="flex items-center space-x-2">
@@ -44,5 +48,7 @@
             </div>
         </form>
     </div>
+
+    <script src="../assets/js/app.js"></script>
 </body>
 </html>
