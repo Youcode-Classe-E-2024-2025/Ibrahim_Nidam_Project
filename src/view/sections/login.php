@@ -31,10 +31,10 @@
             </button>
         </form>
         <button type="submit" class="mt-4 button relative flex items-center justify-center w-full h-12 bg-gray-100 border-4 border-gray-500 rounded cursor-pointer">
-          <div class="button__content relative grid w-full h-full rounded">
-              <p class="button__text text-center text-lg bg-gray-500">Continue as a Guest!</p>
-          </div>
-      </button>
+            <div class="button__content relative grid w-full h-full rounded">
+                <a href="?action=home" class="button__text text-center text-lg bg-gray-500">Continue as a Guest!</a>
+            </div>
+        </button>
         <div class="text-center text-white">
             <p>Don't have an account? <a href="?action=signup" class="underline hover:no-underline">Register</a></p>
         </div>

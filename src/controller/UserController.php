@@ -73,4 +73,12 @@
             $csrf_token = CSRF::getToken();
             require_once "../src/view/sections/login.php";
         }
+
+        public function logout(){
+            session_start();
+            session_unset();
+            session_destroy();
+            header("Location: ?action=login");
+            exit;
+        }
     }

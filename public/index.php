@@ -25,6 +25,9 @@
             $controller = new UserController();
             $controller->$action();
             break;
+        case "logout":
+            $controller = new UserController();
+            $controller->$action();
         default:
         http_response_code(404);
         header("Location: ../src/view/sections/404.php");
