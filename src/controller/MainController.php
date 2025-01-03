@@ -23,4 +23,13 @@
             $projects = $this->displayProjects();
             require_once __DIR__ . "/../view/projects.php";
         }
+
+        public function displayUsers(){
+            return $this->UserModel->getAllUsers();
+        }
+
+        public function showUsersView(){
+            $users = $this->displayUsers();
+            require_once __DIR__ . "/../view/projects.php";
+        }
     }

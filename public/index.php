@@ -1,15 +1,16 @@
 <?php
     require "../vendor/autoload.php";
 
-use Controller\PageController;
-use Controller\UserController;
+    use Controller\PageController;
+    use Controller\ProjectController;
+    use Controller\UserController;
     
     session_start();
 
     
     $action = $_GET["action"] ?? null;
 
-    $validActions = ["login", "logout", "signup", "home"];
+    $validActions = ["login", "logout", "signup", "home","project"];
 
     if($action && !in_array($action, $validActions)){
         http_response_code(404);

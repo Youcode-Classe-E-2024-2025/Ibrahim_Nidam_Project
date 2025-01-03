@@ -10,6 +10,7 @@
 
         public function home(){
             $projects = $this->MainController->displayProjects();
+            $users = $this->MainController->displayUsers();
             require_once "../src/view/projects.php";
         }
     }

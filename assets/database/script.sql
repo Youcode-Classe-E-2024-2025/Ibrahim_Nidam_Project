@@ -54,6 +54,14 @@ CREATE TABLE IF NOT EXISTS Task_Assignment (
     FOREIGN KEY (person_id) REFERENCES Person(id) ON DELETE CASCADE
 );
 
+CREATE TABLE IF NOT EXISTS Project_Assignment (
+    project_id INT NOT NULL,
+    person_id INT NOT NULL,
+    PRIMARY KEY (project_id, person_id),
+    FOREIGN KEY (project_id) REFERENCES Project(id) ON DELETE CASCADE,
+    FOREIGN KEY (person_id) REFERENCES Person(id) ON DELETE CASCADE
+);
+
 INSERT INTO Person (name, email, password, role, isLogged) VALUES
 ('Ibrahim Nidam', 'a@e.com', '$2a$12$CaK1h7hZOPH8lHlrzfWcG.9GKNeQvFzBWkM5oELpFgWJqa0ZyCTOa', 'Project Manager', FALSE),
 ('Ali Rachid', 'b@e.com', '$2a$12$22jwn/Pb.vCcrFbOe/qgmOtJAGLTE1fcL66VbkFnjn.gffgrB2kX6', 'Member', FALSE),
