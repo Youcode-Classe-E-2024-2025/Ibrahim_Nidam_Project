@@ -24,7 +24,7 @@
             require_once __DIR__ . "/../view/projects.php";
         }
 
-        public function displayUsers(){
+        public function displayUsers() {
             return $this->UserModel->getAllUsers();
         }
 

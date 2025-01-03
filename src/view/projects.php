@@ -46,7 +46,7 @@
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 px-10 mt-8">
         <?php $displayPrjects = array(); foreach($projects as $project){$displayPrjects[] = $project;} ?>
             <?php foreach($displayPrjects as $displaying):?>
-        <div data-project-id="<?= $displaying["id"] ?>" class="bg-white bg-opacity-90 rounded p-5 text-gray-800 shadow-md hover:bg-opacity-100 transition-colors relative group">
+        <div data-project-id="<?= $displaying["id"] ?>" class="bg-white cursor-pointer bg-opacity-90 rounded p-5 text-gray-800 shadow-md hover:bg-opacity-100 transition-colors relative group">
         <?php $initialPath = ($displaying["isPublic"] == 1) 
             ? '<path d="M17 8V7c0-2.757-2.243-5-5-5S7 4.243 
                 7 7v1H6c-1.103 0-2 .897-2 
@@ -155,6 +155,7 @@
             Create
             </button>
         </div>
+        <input type="hidden" name="manager_id" value="<?= $_SESSION["user_id"] ?>">
         </form>
     </div>
     </div>

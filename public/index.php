@@ -10,7 +10,7 @@
     
     $action = $_GET["action"] ?? null;
 
-    $validActions = ["login", "logout", "signup", "home","project"];
+    $validActions = ["login", "logout", "signup", "home","project", "addProject"];
 
     if($action && !in_array($action, $validActions)){
         http_response_code(404);
@@ -18,10 +18,16 @@
         exit;
     }
 
-    if(!in_array($action, ["login", "signup"]) && !isset($_SESSION["user"])){
-        header("Location: index.php?action=login");
+    // if(!in_array($action, ["login", "signup"]) && !isset($_SESSION["user"])){
+    //     header("Location: index.php?action=login");
+    //     exit;
+    // }
+
+    if ($action === "login" && isset($_SESSION["user"])) {
+        header("Location: index.php?action=home");  // Redirect if already logged in
         exit;
     }
+    
 
     $action = $action ?? "login";
 
@@ -39,6 +45,10 @@
             break;
         case "logout":
             $controller = new UserController();
+            $controller->$action();
+            break;
+        case "addProject":
+            $controller = new ProjectController();
             $controller->$action();
             break;
         default:

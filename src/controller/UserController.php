@@ -61,7 +61,7 @@
 
                 if($user && password_verify($password, $user[0]["password"])){
                     session_start();
-                    $_SESSION["user"] = $user[0]["id"];
+                    $_SESSION["user_id"] = $user[0]["id"];
                     $_SESSION["user_name"] = $user[0]["name"];
                     header("Location: ?action=home");
                     exit;
