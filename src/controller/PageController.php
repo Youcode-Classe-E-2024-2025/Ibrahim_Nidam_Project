@@ -1,16 +1,23 @@
 <?php
     namespace Controller;
 
+    // use Controller\ProjectController;
     class PageController extends MainController {
-        protected $MainController;
+        protected $ProjectController;
+        protected $UserController;
 
         public function __construct(){
-            $this->MainController = new MainController();
+            $this->ProjectController = new ProjectController();
+            $this->UserController = new UserController();
         }
 
         public function home(){
-            $projects = $this->MainController->displayProjects();
-            $users = $this->MainController->displayUsers();
+            $projects = $this->ProjectController->displayProjects();
+            $users = $this->UserController->displayUsers();
             require_once "../src/view/projects.php";
+        }
+
+        public function kanban(){
+            require_once "../src/view/kanban.php";
         }
     }

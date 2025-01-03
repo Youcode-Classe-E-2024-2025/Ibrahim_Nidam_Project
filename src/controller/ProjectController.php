@@ -12,6 +12,15 @@
             $this->ProjectModel = new ProjectModel();
         }
 
+        public function displayProjects(){
+            return $this->ProjectModel->getAllProjects();
+        }
+
+        public function showProjectView(){
+            $projects = $this->displayProjects();
+            require_once __DIR__ . "/../view/projects.php";
+        }
+        
         public function addProject(){
             
             if($_SERVER["REQUEST_METHOD"] === "POST"){

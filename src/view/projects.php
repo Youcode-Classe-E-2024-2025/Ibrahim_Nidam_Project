@@ -1,6 +1,6 @@
 <?php require_once "sections/head.php"; ?>
 
-<body class="bg-gradient-to-tr from-[#2a464e] via-[#243b42] to-[#1d2b31] text-gray-200 w-screen h-screen overflow-auto">
+<body class="bg-gradient-to-tr from-[#2a464e] via-[#243b42] to-[#1d2b31] text-gray-200 w-screen overflow-auto">
 
     <div class="flex flex-col w-full">
         <div class="flex justify-between items-center h-16 px-10 bg-white bg-opacity-75">
@@ -43,11 +43,11 @@
         </div>
     </div>
 
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 px-10 mt-8">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 px-10 mt-8 py-4">
         <?php $displayPrjects = array(); foreach($projects as $project){$displayPrjects[] = $project;} ?>
             <?php foreach($displayPrjects as $displaying):?>
-    <a href="?action=viewProject&id=<?= $displaying["id"] ?>" class="block h-full">
-        <div data-project-id="<?= $displaying["id"] ?>" class="bg-white cursor-pointer bg-opacity-90 rounded p-5 text-gray-800 shadow-md hover:bg-opacity-100 transition-colors relative group">
+    <a href="?action=kanban&id=<?= htmlspecialchars($displaying["id"]) ?>">
+        <div data-project-id="<?= htmlspecialchars($displaying["id"]) ?>" class="bg-white cursor-pointer bg-opacity-90 rounded p-5 text-gray-800 shadow-md hover:bg-opacity-100 transition-colors relative group">
             <?php $initialPath = ($displaying["isPublic"] == 1) 
             ? '<path d="M17 8V7c0-2.757-2.243-5-5-5S7 4.243 
             7 7v1H6c-1.103 0-2 .897-2 
@@ -64,18 +64,18 @@
             <button
             class="absolute top-3 right-3 text-gray-500 hover:text-gray-700"
             onclick="toggleLock(this)"
-            data-locked="<?= $displaying["isPublic"] == 1 ? 'false' : 'true'; ?>"
+            data-locked="<?= htmlspecialchars($displaying["isPublic"]) == 1 ? 'false' : 'true'; ?>"
             >
             <svg class="w-5 h-5 lock-icon" fill="currentColor" viewBox="0 0 24 24">
                 <?= $initialPath; ?>
             </svg>
             </button>
-            <h2 class="text-lg font-bold text-gray-800 mb-2"><?= $displaying["name"] ?></h2>
-            <div class="text-sm text-gray-600 mb-3">Completion: <?= $displaying["completion_percentage"]?>%</div>
+            <h2 class="text-lg font-bold text-gray-800 mb-2"><?= htmlspecialchars($displaying["name"]) ?></h2>
+            <div class="text-sm text-gray-600 mb-3">Completion: <?= htmlspecialchars($displaying["completion_percentage"])?>%</div>
             <div class="w-full bg-gray-200 rounded-full h-2 mb-3">
-                <div class="<?= $displaying["completion_percentage"] < 40 ? "bg-red-500" : ($displaying["completion_percentage"] < 80 ? "bg-yellow-500" : "bg-green-500"); ?> h-2 rounded-full" style="width: <?= $displaying["completion_percentage"]?>%;"></div>
+                <div class="<?= htmlspecialchars($displaying["completion_percentage"]) < 40 ? "bg-red-500" : (htmlspecialchars($displaying["completion_percentage"]) < 80 ? "bg-yellow-500" : "bg-green-500"); ?> h-2 rounded-full" style="width: <?= $displaying["completion_percentage"]?>%;"></div>
             </div>
-            <p class="text-sm text-gray-600"><?= $displaying["description"]?>.</p>
+            <p class="text-sm text-gray-600"><?= htmlspecialchars($displaying["description"])?>.</p>
             </div>
             <?php endforeach; ?>
         </div>

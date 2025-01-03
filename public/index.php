@@ -10,7 +10,7 @@
     
     $action = $_GET["action"] ?? null;
 
-    $validActions = ["login", "logout", "signup", "home","project", "addProject"];
+    $validActions = ["login", "logout", "signup", "home","project", "addProject","kanban"];
 
     if($action && !in_array($action, $validActions)){
         http_response_code(404);
@@ -39,6 +39,7 @@
             $controller = new UserController();
             $controller->$action();
             break;
+        case "kanban":
         case "home":
             $controller = new PageController();
             $controller->$action();

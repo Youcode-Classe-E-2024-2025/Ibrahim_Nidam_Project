@@ -7,6 +7,15 @@
 
     class UserController extends MainController {
 
+        public function displayUsers() {
+            return $this->UserModel->getAllUsers();
+        }
+
+        public function showUsersView(){
+            $users = $this->displayUsers();
+            require_once __DIR__ . "/../view/projects.php";
+        }
+
         public function signup(){
             if($_SERVER["REQUEST_METHOD"] === "POST"){
 

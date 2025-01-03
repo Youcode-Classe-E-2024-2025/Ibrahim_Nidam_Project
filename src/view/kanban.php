@@ -20,8 +20,9 @@
 			</buton>
 		</div>
 	</div>
-	<div class="px-10 mt-6">
+	<div class="px-10 mt-6 flex justify-between items-center">
 		<h1 class="text-2xl font-bold">Team Project Board</h1>
+		<a href="?action=home"><h1 class="italic underline hover:text-indigo-500 text-xl">← Go back</h1></a>
 	</div>
 
 
@@ -29,7 +30,7 @@
 		<div class="flex flex-col flex-shrink-0 w-72">
 
 			<div class="flex items-center flex-shrink-0 h-10 px-2">
-				<span class="block text-sm font-semibold">Backlog</span>
+				<span class="block text-sm font-semibold">Todo</span>
 				<span class="flex items-center justify-center w-5 h-5 ml-2 text-sm font-semibold text-indigo-500 bg-white rounded bg-opacity-30">6</span>
 				<button class="flex items-center justify-center w-6 h-6 ml-auto text-indigo-500 rounded hover:bg-indigo-500 hover:text-indigo-100">
 					<svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -46,7 +47,12 @@
 							<path d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z" />
 						</svg>
 					</button>
-					<span class="flex items-center h-6 px-3 text-xs font-semibold text-yellow-500 bg-yellow-100 rounded-full">Copywriting</span>
+					<div class="flex justify-around w-full">
+
+						<span class="flex items-center h-6 px-3 text-xs font-semibold text-yellow-500 bg-yellow-100 rounded-full self-start">Copywriting</span>
+						<span class="flex items-center h-6 px-3 text-xs font-semibold text-indigo-500 bg-indigo-100 rounded-full">#Copywriting</span>
+					</div>
+					<h4 class="mt-3 text-sm font-medium">This is the title of the card for the thing that needs to be done.</h4>
 					<h4 class="mt-3 text-sm font-medium">This is the title of the card for the thing that needs to be done.</h4>
 					<div class="flex items-center w-full mt-3 text-xs font-medium text-gray-400">
 						<div class="flex items-center">
