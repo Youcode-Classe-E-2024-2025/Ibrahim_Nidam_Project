@@ -2,6 +2,7 @@
     namespace Controller;
 
     use Model\ProjectModel;
+    use Utilities\CSRF;
 
     class ProjectController extends MainController{
         protected $MainController;
@@ -12,7 +13,12 @@
         }
 
         public function addProject(){
+            
             if($_SERVER["REQUEST_METHOD"] === "POST"){
+                if(!isset($_POST["csrf_token"]) || !CSRF::validateToken("addProjectForm",$_POST["csrf_token"])){
+                    die("Invalid CSRF Token");
+                }
+
                 $projectName = $_POST["project_name"];
                 $projectDesc = $_POST["project_description"];
                 $projectVisi = $_POST["isPublic"];
@@ -45,7 +51,6 @@
                     header("Location: ?action=error=true");
                     exit;
                 }
-
             }
         }
     }

@@ -10,7 +10,7 @@
         public function signup(){
             if($_SERVER["REQUEST_METHOD"] === "POST"){
 
-                if(!isset($_POST["csrf_token"]) || !CSRF::validateToken($_POST["csrf_token"])){
+                if(!isset($_POST["csrf_token"]) || !CSRF::validateToken("signupForm", $_POST["csrf_token"])){
                     die("Invalid CSRF Token");
                 }
 
@@ -41,7 +41,6 @@
                 exit;
             }
             
-            $csrf_token = CSRF::getToken();
             require_once "../src/view/sections/register.php";
         }
 
@@ -49,7 +48,7 @@
             
             if($_SERVER["REQUEST_METHOD"] === "POST"){
 
-                if(!isset($_POST["csrf_token"]) || !CSRF::validateToken($_POST["csrf_token"])){
+                if(!isset($_POST["csrf_token"]) || !CSRF::validateToken("loginForm", $_POST["csrf_token"])){
                     die("Invalid CSRF Token");
                 }
 
@@ -70,7 +69,6 @@
                 }
             }
 
-            $csrf_token = CSRF::getToken();
             require_once "../src/view/sections/login.php";
         }
 

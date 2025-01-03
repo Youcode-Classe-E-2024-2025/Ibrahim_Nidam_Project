@@ -24,7 +24,7 @@
     // }
 
     if ($action === "login" && isset($_SESSION["user"])) {
-        header("Location: index.php?action=home");  // Redirect if already logged in
+        header("Location: index.php?action=home");
         exit;
     }
     

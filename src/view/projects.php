@@ -46,51 +46,54 @@
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 px-10 mt-8">
         <?php $displayPrjects = array(); foreach($projects as $project){$displayPrjects[] = $project;} ?>
             <?php foreach($displayPrjects as $displaying):?>
+    <a href="?action=viewProject&id=<?= $displaying["id"] ?>" class="block h-full">
         <div data-project-id="<?= $displaying["id"] ?>" class="bg-white cursor-pointer bg-opacity-90 rounded p-5 text-gray-800 shadow-md hover:bg-opacity-100 transition-colors relative group">
-        <?php $initialPath = ($displaying["isPublic"] == 1) 
+            <?php $initialPath = ($displaying["isPublic"] == 1) 
             ? '<path d="M17 8V7c0-2.757-2.243-5-5-5S7 4.243 
-                7 7v1H6c-1.103 0-2 .897-2 
-                2v8c0 1.103.897 2 2 
-                2h12c1.103 0 2-.897 
-                2-2v-8c0-1.103-.897-2-2-2h-1zm-6-1c0-1.654 
-                1.346-3 3-3s3 1.346 3 3v1H11V7z"/>'
+            7 7v1H6c-1.103 0-2 .897-2 
+            2v8c0 1.103.897 2 2 
+            2h12c1.103 0 2-.897 
+            2-2v-8c0-1.103-.897-2-2-2h-1zm-6-1c0-1.654 
+            1.346-3 3-3s3 1.346 3 3v1H11V7z"/>'
             : '<path d="M12 2C9.243 2 7 4.243 7 7v3H6c-1.103 0-2 .897-2
-                2v8c0 1.103.897 2 2 2h12c1.103 0 2-.897 
-                2-2v-8c0-1.103-.897-2-2-2h-1V7c0-2.757-2.243-5-5-5zM9
-                7c0-1.654 1.346-3 3-3s3 1.346 3 3v3H9V7zm7 14H8v-6h8v6z"/>';
-        ?>
+            2v8c0 1.103.897 2 2 2h12c1.103 0 2-.897 
+            2-2v-8c0-1.103-.897-2-2-2h-1V7c0-2.757-2.243-5-5-5zM9
+            7c0-1.654 1.346-3 3-3s3 1.346 3 3v3H9V7zm7 14H8v-6h8v6z"/>';
+            ?>
 
-        <button
-        class="absolute top-3 right-3 text-gray-500 hover:text-gray-700"
-        onclick="toggleLock(this)"
-        data-locked="<?= $displaying["isPublic"] == 1 ? 'false' : 'true'; ?>"
-        >
+            <button
+            class="absolute top-3 right-3 text-gray-500 hover:text-gray-700"
+            onclick="toggleLock(this)"
+            data-locked="<?= $displaying["isPublic"] == 1 ? 'false' : 'true'; ?>"
+            >
             <svg class="w-5 h-5 lock-icon" fill="currentColor" viewBox="0 0 24 24">
                 <?= $initialPath; ?>
             </svg>
-        </button>
+            </button>
             <h2 class="text-lg font-bold text-gray-800 mb-2"><?= $displaying["name"] ?></h2>
             <div class="text-sm text-gray-600 mb-3">Completion: <?= $displaying["completion_percentage"]?>%</div>
             <div class="w-full bg-gray-200 rounded-full h-2 mb-3">
                 <div class="<?= $displaying["completion_percentage"] < 40 ? "bg-red-500" : ($displaying["completion_percentage"] < 80 ? "bg-yellow-500" : "bg-green-500"); ?> h-2 rounded-full" style="width: <?= $displaying["completion_percentage"]?>%;"></div>
             </div>
             <p class="text-sm text-gray-600"><?= $displaying["description"]?>.</p>
+            </div>
+            <?php endforeach; ?>
         </div>
-        <?php endforeach; ?>
-    </div>
-    
-    <div id="modalOverlay" class="fixed inset-0 bg-black bg-opacity-50 hidden justify-center items-center z-50">
+    </a>
+<div id="modalOverlay" class="fixed inset-0 bg-black bg-opacity-50 hidden justify-center items-center z-50">
     <div class="bg-white text-gray-800 p-8 border border-gray-300 shadow-lg w-full max-w-md">
         <h2 class="text-xl font-bold mb-4">Add New Project</h2>
         <form method="POST" action="?action=addProject">
-        <label class="block mb-4">
-            <span class="text-gray-600">Project Name</span>
-            <input
-            type="text"
-            name="project_name"
-            class="mt-1 block w-full border border-gray-300 focus:ring focus:border-blue-500 p-2"
-            />
-        </label>
+        <?php $csrf_token = \Utilities\CSRF::getToken("addProjectForm"); ?>
+        <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($csrf_token) ?>">
+            <label class="block mb-4">
+                <span class="text-gray-600">Project Name</span>
+                <input
+                type="text"
+                name="project_name"
+                class="mt-1 block w-full border border-gray-300 focus:ring focus:border-blue-500 p-2"
+                />
+            </label>
         
         <label class="block mb-4">
             <span class="text-gray-600">Description</span>
