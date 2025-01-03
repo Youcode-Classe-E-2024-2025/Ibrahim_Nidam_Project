@@ -7,10 +7,6 @@
     class ProjectController extends MainController{
         protected $MainController;
 
-        public function __construct(){
-            $this->MainController = new MainController();
-            $this->ProjectModel = new ProjectModel();
-        }
 
         public function displayProjects(){
             return $this->ProjectModel->getAllProjects();

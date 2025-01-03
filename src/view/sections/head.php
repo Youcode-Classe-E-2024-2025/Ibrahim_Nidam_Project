@@ -60,6 +60,20 @@
                     0% { transform: rotate(6deg); }
                     100% { transform: rotate(-6deg); }
                 }
+
+                .no-scrollbar::-webkit-scrollbar {
+                    display: none; /* Hide scrollbar in WebKit browsers */
+                }
+
+                .no-scrollbar {
+                    -ms-overflow-style: none; /* Hide scrollbar in Internet Explorer */
+                    scrollbar-width: none; /* Hide scrollbar in Firefox */
+                }
+
+                .overflow-x-auto {
+                    overflow-x: auto; /* Enable horizontal scrolling */
+                }
+
         </style>
 
     </head>

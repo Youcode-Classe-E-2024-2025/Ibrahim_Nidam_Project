@@ -3,6 +3,7 @@
 
     use Controller\PageController;
     use Controller\ProjectController;
+    use Controller\TaskController;
     use Controller\UserController;
     
     session_start();
@@ -10,7 +11,7 @@
     
     $action = $_GET["action"] ?? null;
 
-    $validActions = ["login", "logout", "signup", "home","project", "addProject","kanban"];
+    $validActions = ["login", "logout", "signup", "home", "addProject","kanban"];
 
     if($action && !in_array($action, $validActions)){
         http_response_code(404);
@@ -23,10 +24,10 @@
     //     exit;
     // }
 
-    if ($action === "login" && isset($_SESSION["user"])) {
-        header("Location: index.php?action=home");
-        exit;
-    }
+    // if ($action === "login" && isset($_SESSION["user"])) {
+    //     header("Location: index.php?action=home");
+    //     exit;
+    // }
     
 
     $action = $action ?? "login";
@@ -40,6 +41,9 @@
             $controller->$action();
             break;
         case "kanban":
+            $controller = new TaskController();
+            $controller->showTasksView();
+            break;
         case "home":
             $controller = new PageController();
             $controller->$action();
