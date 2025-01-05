@@ -34,7 +34,7 @@
                 <span class="flex items-center justify-center w-5 h-5 ml-2 text-sm font-semibold text-indigo-900 bg-white rounded bg-opacity-30">
                     <?= count(array_filter($tasks, fn($task) => $task["status"] === $status)) ?>
                 </span>
-                <button class="flex items-center justify-center w-6 h-6 ml-auto text-indigo-500 rounded hover:bg-indigo-500 hover:text-indigo-100">
+                <button onclick="openTaskModal()" class="flex items-center justify-center w-6 h-6 ml-auto text-indigo-500 rounded hover:bg-indigo-500 hover:text-indigo-100">
                     <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
                     </svg>
@@ -48,7 +48,7 @@
                 <?php if (!empty($filteredTasks)): ?>
                     <?php foreach($filteredTasks as $displaying): ?>
                         <div class="relative text-gray-500 flex flex-col items-start p-4 mt-3 bg-white rounded cursor-pointer bg-opacity-90 group hover:bg-opacity-100" draggable="true">
-                            <button class="absolute top-0 right-0 items-center justify-center hidden w-5 h-5 mt-3 mr-2 text-gray-500 rounded hover:bg-gray-200 hover:text-gray-700 group-hover:flex">
+                            <button  class="absolute top-0 right-0 items-center justify-center hidden w-5 h-5 mt-3 mr-2 text-gray-500 rounded hover:bg-gray-200 hover:text-gray-700 group-hover:flex">
                                 <svg class="w-4 h-4 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                                     <path d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z" />
                                 </svg>
@@ -86,6 +86,91 @@
         <?php endforeach; ?>
     </div>
 </div>
+
+<div id="taskModalOverlay" class="fixed inset-0 hidden bg-black bg-opacity-50 justify-center items-center z-50">
+    <div class="bg-white text-gray-800 p-8 rounded-lg shadow-lg max-w-md w-full">
+        <h2 class="text-xl font-bold mb-4">Add New Task</h2>
+
+        <form id="taskForm" method="POST" action="?action=addTask">
+            <input type="hidden" name="project_id" value="<?= htmlspecialchars($_GET['id']) ?>">
+            <input type="hidden" name="csrf_token" value="<?= \Utilities\CSRF::getToken("addTask") ?>">
+
+            <label class="block mb-4">
+                <span class="text-gray-600">Title</span>
+                <input type="text" name="title" class="mt-1 block w-full border border-gray-300 p-2 rounded" required>
+            </label>
+
+            <label class="block mb-4">
+                <span class="text-gray-600">Description</span>
+                <textarea name="description" class="mt-1 block w-full border border-gray-300 p-2 rounded"></textarea>
+            </label>
+
+            <label class="block mb-4">
+                <span class="text-gray-600">Category</span>
+                <select name="category_id" class="mt-1 block w-full border border-gray-300 p-2 rounded" required>
+                    <option value="">Select Category</option>
+                    <?php foreach ($categories as $category): ?>
+                        <option value="<?= htmlspecialchars($category['id']) ?>">
+                            <?= htmlspecialchars($category['name']) ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
+            </label>
+
+            <label class="block mb-4">
+                <span class="text-gray-600">Tag</span>
+                <select name="tag_id" class="mt-1 block w-full border border-gray-300 p-2 rounded">
+                    <option value="">No Tag</option>
+                    <?php foreach ($tags as $tag): ?>
+                        <option value="<?= htmlspecialchars($tag['id']) ?>">
+                            <?= htmlspecialchars($tag['name']) ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
+            </label>
+
+            <label class="block mb-4">
+                <span class="text-gray-600">Assign Users</span>
+                <select name="assigned_users[]" class="chosen-select mt-1 block w-full border p-2 rounded" multiple>
+                    <?php 
+                    if (!empty($availableUsers)) {
+                        foreach ($availableUsers as $user): ?>
+                            <option value="<?= htmlspecialchars($user['person_id']) ?>">
+                                <?= htmlspecialchars($user['user_name']) ?>
+                            </option>
+                        <?php endforeach;
+                    } else {
+                        echo "<option value=''>No users available</option>";
+                    }
+                    ?>
+                </select>
+            </label>
+
+            <div class="flex justify-end">
+                <button type="button" class="px-4 py-2 bg-gray-200 text-gray-800 rounded mr-2" onclick="closeTaskModal()">Cancel</button>
+                <button type="submit" class="px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700">Add Task</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<script>
+    $(function() {
+        $(".chosen-select").chosen({ width: "100%" });
+    });
+
+    function openTaskModal() {
+        document.getElementById('taskModalOverlay').classList.remove('hidden');
+        document.getElementById('taskModalOverlay').classList.add('flex');
+    }
+
+    function closeTaskModal() {
+        document.getElementById('taskModalOverlay').classList.add('hidden');
+        document.getElementById('taskModalOverlay').classList.remove('flex');
+    }
+</script>
+
 
 </body>
 </html>

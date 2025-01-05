@@ -34,4 +34,10 @@
             $stmt->execute(["project_id" => $_GET["id"]]);
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
         }
+
+        public function query($sql, $params = []){
+            $stmt = $this->db->prepare($sql);
+            $stmt->execute($params);
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        }
     }
