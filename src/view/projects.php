@@ -14,7 +14,7 @@
             />
             <div class="ml-10">
                 <a class="mx-2 text-sm font-semibold text-indigo-700" href="?action=projects">Projects</a>
-                <a class="mx-2 text-sm font-semibold text-gray-600 hover:text-indigo-700" href="?action=dash">Dashboard</a>
+                <a class="mx-2 text-sm font-semibold text-gray-600 hover:text-indigo-700" href="?action=dashboard">Dashboard</a>
             </div>
         </div>
         <div class="flex gap-4 items-center">

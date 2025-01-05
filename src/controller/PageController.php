@@ -20,4 +20,8 @@
         public function kanban(){
             require_once "../src/view/kanban.php";
         }
+
+        public function dashboard(){
+            require_once "../src/view/dashboard.php";
+        }
     }
