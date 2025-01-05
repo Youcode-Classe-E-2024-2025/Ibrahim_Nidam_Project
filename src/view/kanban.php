@@ -50,7 +50,7 @@
             </div>
 
             <div class="flex flex-col pb-2 overflow-auto">
-                <?php $filteredTasks = array_filter($tasks, fn($task) => $task["status"] === $status);?>
+                <?php $filteredTasks = array_filter($tasks, fn($task) => $task["status"] === $status); ?>
 
                 <?php if (!empty($filteredTasks)): ?>
                     <?php foreach ($filteredTasks as $displaying): ?>
@@ -65,6 +65,10 @@
                             class="relative text-gray-500 flex flex-col items-start p-4 mt-3 bg-white rounded bg-opacity-90 hover:bg-opacity-100"
                             draggable="true"
                         >
+                            <?php if ($isAllowed): ?>
+                                <span class="absolute inset-0 rounded border-[3px] border-rose-700 animate-pulse pointer-events-none"></span>
+                            <?php endif; ?>
+
                             <?php if ($isAllowed): ?>
                                 <details class="absolute top-0 right-0 mt-3 mr-2">
                                     <summary class="flex items-center justify-center w-5 h-5 text-gray-500 rounded hover:bg-gray-200 hover:text-gray-700 focus:outline-none cursor-pointer">
@@ -116,7 +120,7 @@
                                     </div>
                                 </details>
                             <?php else: ?>
-                                <!-- Not allowed: static icon, no <details> expand -->
+                                <!-- Not allowed: static icon with disabled cursor -->
                                 <div 
                                     class="absolute top-0 right-0 mt-3 mr-2 flex items-center justify-center w-5 h-5 text-gray-400 rounded cursor-not-allowed"
                                     title="You are not allowed to change the status"

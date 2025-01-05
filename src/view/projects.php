@@ -63,12 +63,16 @@
 <?php $displayProjects = array(); foreach ($projects as $project) { $displayProjects[] = $project; } ?>
 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 px-10 mt-8 py-4">
     <?php foreach ($displayProjects as $displaying): ?>
+        <?php
+            $currentUserId = $_SESSION["user_id"] ?? null; // If not set, default to null
+            $isOwner = ($currentUserId !== null && $currentUserId == $displaying["manager_id"]);
+            $isAssigned = ($currentUserId !== null && in_array($currentUserId, $displaying["assigned_users"] ?? []));
+            $isAllowed = ($isOwner || $isAssigned);
+        ?>
         <div data-project-id="<?= htmlspecialchars($displaying["id"]) ?>" class="bg-white cursor-pointer bg-opacity-90 rounded p-5 text-gray-800 shadow-md hover:bg-opacity-100 transition-colors relative group">
-            <?php 
-            $initialPath = ($displaying["isPublic"] == 1) 
-                ? '<path d="M17 8V7c0-2.757-2.243-5-5-5S7 4.243 7 7v1H6c-1.103 0-2 .897-2 2v8c0 1.103.897 2 2 2h12c1.103 0 2-.897 2-2v-8c0-1.103-.897-2-2-2h-1zm-6-1c0-1.654 1.346-3 3-3s3 1.346 3 3v1H11V7z"/>'
-                : '<path d="M12 2C9.243 2 7 4.243 7 7v3H6c-1.103 0-2 .897-2 2v8c0 1.103.897 2 2 2h12c1.103 0 2-.897 2-2v-8c0-1.103-.897-2-2-2h-1V7c0-2.757-2.243-5-5-5zM9 7c0-1.654 1.346-3 3-3s3 1.346 3 3v3H9V7zm7 14H8v-6h8v6z"/>';
-            ?>
+            <?php if ($isAllowed): ?>
+                <span class="absolute inset-0 rounded border-[3px] border-rose-700 animate-pulse pointer-events-none"></span>
+            <?php endif; ?>
 
             <form method="POST" action="?action=toggleVisibility" class="absolute top-3 right-3">
                 <input type="hidden" name="project_id" value="<?= htmlspecialchars($displaying["id"]) ?>">
@@ -93,6 +97,7 @@
         </div>
     <?php endforeach; ?>
 </div>
+
 
 <div id="modalOverlay" class="fixed inset-0 bg-black bg-opacity-50 hidden justify-center items-center z-50">
     <div class="bg-white text-gray-800 p-8 border border-gray-300 shadow-lg w-full max-w-md">
