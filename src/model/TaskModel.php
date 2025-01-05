@@ -40,4 +40,16 @@
             $stmt->execute($params);
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
         }
+
+        public function getAssignedUserByTask($taskId){
+            $sql = "SELECT p.name AS user_name
+                    FROM task_assignment ta
+                    INNER JOIN person p ON ta.person_id = p.id
+                    WHERE ta.task_id = :task_id
+            ";
+
+            $stmt = $this->db->prepare($sql);
+            $stmt->execute(["task_id" => $taskId]);
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        }
     }

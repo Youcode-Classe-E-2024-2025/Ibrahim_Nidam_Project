@@ -27,6 +27,10 @@ use Utilities\CSRF;
             $categories = $formData["categories"];
             $tags = $formData["tags"];
             $availableUsers = $formData["availableUsers"];
+
+            $projectId = (int) $_GET["id"];
+            $projectResult = $this->TaskModel->read("project", ["id" => $projectId]);
+            $project = $projectResult[0] ?? null;
             
             foreach ($tasks as &$task) {
                 $task["category_name"] = "Unknown Category";
@@ -110,9 +114,54 @@ use Utilities\CSRF;
                     header("Location: ?action=error=true");
                     exit;
                 }
-
-
             }
         }
+
+        public function updateTaskStatus(){
+
+            if ($_SERVER["REQUEST_METHOD"] === "POST") {
+                $taskId   = $_POST["task_id"] ?? null;
+                $newStatus = $_POST["new_status"] ?? null;
+                $userId   = $_SESSION["user_id"] ?? null;
+                $userName = $_SESSION["user_name"] ?? null;
+                $projectId = (int) $_GET["id"];
+
+                if (!$taskId || !$newStatus || !$userId) {
+                    header("Location: ?action=kanban&id=$projectId&error=missing-data");
+                    exit;
+                }
+
+                $task = $this->TaskModel->read("task", ["id" => $taskId]);
+                if (empty($task)) {
+                    header("Location: ?action=kanban&id=$projectId&error=TaskNotFound");
+                    exit;
+                }
+                $task = $task[0];
+
+                $project = $this->TaskModel->read("project", ["id" => $projectId]);
+                if (empty($project)) {
+                    header("Location: ?action=kanban&id=$projectId&error=NoProject");
+                    exit;
+                }
+                $project = $project[0];
+                $projectManagerId = $project["manager_id"];
+
+                $assignedUsers = array_column($this->TaskModel->getAssignedUserByTask($taskId), "user_name");
+                $isAssigned = in_array($userName, $assignedUsers);
+
+                $isManager = ($projectManagerId == $userId);
+
+                if (!$isManager && !$isAssigned) {
+                    header("Location: ?action=kanban&id=$projectId&error=Unauthorized");
+                    exit;
+                }
+
+                $this->TaskModel->update("task", ["status" => $newStatus], ["id" => $taskId]);
+
+                header("Location: ?action=kanban&id=$projectId&success=status-updated");
+                exit;
+            }
+        }
+
         
     }

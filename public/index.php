@@ -11,24 +11,13 @@
     
     $action = $_GET["action"] ?? null;
 
-    $validActions = ["login", "logout", "signup", "home", "addProject","kanban","addTask","toggleVisibility"];
+    $validActions = ["login", "logout", "signup", "home", "addProject","kanban","addTask","toggleVisibility", "updateTaskStatus"];
 
     if($action && !in_array($action, $validActions)){
         http_response_code(404);
         header("Location: ../src/view/sections/404.php");
         exit;
     }
-
-    // if(!in_array($action, ["login", "signup"]) && !isset($_SESSION["user"])){
-    //     header("Location: index.php?action=login");
-    //     exit;
-    // }
-
-    // if ($action === "login" && isset($_SESSION["user"])) {
-    //     header("Location: index.php?action=home");
-    //     exit;
-    // }
-    
 
     $action = $action ?? "login";
 
@@ -62,6 +51,10 @@
             break;
         case "toggleVisibility":
             $controller = new ProjectController();
+            $controller->$action();
+            break;
+        case "updateTaskStatus":
+            $controller = new TaskController();
             $controller->$action();
             break;
         default:

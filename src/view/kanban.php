@@ -21,7 +21,7 @@
         </div>
     </div>
     <div class="px-10 mt-6 flex justify-between items-center">
-        <h1 class="text-2xl font-bold">Team Project Board || <?= $_GET["name"] ?></h1>
+        <h1 class="text-2xl font-bold">Team Project Board || <?= htmlspecialchars($project["name"]) ?></h1>
         <a href="?action=home"><h1 class="italic underline hover:text-indigo-500 text-xl">← Go back</h1></a>
     </div>
 
@@ -50,17 +50,82 @@
             </div>
 
             <div class="flex flex-col pb-2 overflow-auto">
-                <?php
-                $filteredTasks = array_filter($tasks, fn($task) => $task["status"] === $status);
-                ?>
+                <?php $filteredTasks = array_filter($tasks, fn($task) => $task["status"] === $status);?>
+
                 <?php if (!empty($filteredTasks)): ?>
-                    <?php foreach($filteredTasks as $displaying): ?>
-                        <div class="relative text-gray-500 flex flex-col items-start p-4 mt-3 bg-white rounded cursor-pointer bg-opacity-90 group hover:bg-opacity-100" draggable="true">
-                            <button  class="absolute top-0 right-0 items-center justify-center hidden w-5 h-5 mt-3 mr-2 text-gray-500 rounded hover:bg-gray-200 hover:text-gray-700 group-hover:flex">
-                                <svg class="w-4 h-4 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                                    <path d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z" />
-                                </svg>
-                            </button>
+                    <?php foreach ($filteredTasks as $displaying): ?>
+                        <?php
+                            $projectOwnerId = $project["manager_id"];
+                            $isOwner = ($_SESSION["user_id"] == $projectOwnerId);
+                            $isAssigned = in_array($_SESSION["user_name"], $displaying["assigned_users"]);
+                            $isAllowed = ($isOwner || $isAssigned);
+                        ?>
+
+                        <div 
+                            class="relative text-gray-500 flex flex-col items-start p-4 mt-3 bg-white rounded bg-opacity-90 hover:bg-opacity-100"
+                            draggable="true"
+                        >
+                            <?php if ($isAllowed): ?>
+                                <details class="absolute top-0 right-0 mt-3 mr-2">
+                                    <summary class="flex items-center justify-center w-5 h-5 text-gray-500 rounded hover:bg-gray-200 hover:text-gray-700 focus:outline-none cursor-pointer">
+                                        <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20" fill="currentColor">
+                                            <path d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z" />
+                                        </svg>
+                                    </summary>
+
+                                    <div class="absolute right-0 z-20 mt-1 w-28 bg-white border border-gray-200 rounded shadow-lg">
+                                        <form
+                                            method="POST" 
+                                            action="?action=updateTaskStatus&id=<?= urlencode($_GET['id'] ?? '') ?>"
+                                        >
+                                            <input type="hidden" name="task_id" value="<?= $displaying['id'] ?>" />
+                                            
+                                            <button 
+                                                type="submit" 
+                                                name="new_status" 
+                                                value="TODO"
+                                                class="block w-full px-3 py-2 text-left hover:bg-gray-100 text-sm"
+                                            >
+                                                TODO
+                                            </button>
+                                            <button 
+                                                type="submit" 
+                                                name="new_status" 
+                                                value="DOING"
+                                                class="block w-full px-3 py-2 text-left hover:bg-gray-100 text-sm"
+                                            >
+                                                DOING
+                                            </button>
+                                            <button 
+                                                type="submit" 
+                                                name="new_status" 
+                                                value="REVIEW"
+                                                class="block w-full px-3 py-2 text-left hover:bg-gray-100 text-sm"
+                                            >
+                                                REVIEW
+                                            </button>
+                                            <button 
+                                                type="submit" 
+                                                name="new_status" 
+                                                value="DONE"
+                                                class="block w-full px-3 py-2 text-left hover:bg-gray-100 text-sm"
+                                            >
+                                                DONE
+                                            </button>
+                                        </form>
+                                    </div>
+                                </details>
+                            <?php else: ?>
+                                <!-- Not allowed: static icon, no <details> expand -->
+                                <div 
+                                    class="absolute top-0 right-0 mt-3 mr-2 flex items-center justify-center w-5 h-5 text-gray-400 rounded cursor-not-allowed"
+                                    title="You are not allowed to change the status"
+                                >
+                                    <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20" fill="currentColor">
+                                        <path d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z" />
+                                    </svg>
+                                </div>
+                            <?php endif; ?>
 
                             <div class="flex justify-around w-full mb-2">
                                 <span class="flex items-center h-6 px-3 text-xs font-semibold text-green-500 bg-green-100 rounded-full self-start">
@@ -75,7 +140,9 @@
                                 <?= htmlspecialchars($displaying["title"]) ?>
                             </h4>
 
-                            <p class="mt-1 text-sm text-gray-700"><?= nl2br(htmlspecialchars($displaying["description"])) ?></p>
+                            <p class="mt-1 text-sm text-gray-700">
+                                <?= nl2br(htmlspecialchars($displaying["description"])) ?>
+                            </p>
 
                             <div class="flex items-center w-full mt-3 overflow-x-auto space-x-3 no-scrollbar">
                                 <?php foreach ($displaying["assigned_users"] as $user): ?>
@@ -164,6 +231,14 @@
 
 
 <script>
+    document.addEventListener('click', function(e) {
+        if (!e.target.closest('.absolute.top-0.right-0')) {
+            document.querySelectorAll('.absolute.right-0.mt-2').forEach(menu => {
+                menu.classList.add('hidden');
+            });
+        }
+    });
+
     $(function() {
         $(".chosen-select").chosen({ width: "100%" });
     });
