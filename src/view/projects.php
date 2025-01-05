@@ -82,8 +82,6 @@
                 </button>
             </form>
 
-
-
             <a href="?action=kanban&id=<?= htmlspecialchars($displaying["id"]) ?>&name=<?= htmlspecialchars($displaying["name"]) ?>" class="block">
                 <h2 class="text-lg font-bold text-gray-800 mb-2"><?= htmlspecialchars($displaying["name"]) ?></h2>
                 <div class="text-sm text-gray-600 mb-3">Completion: <?= htmlspecialchars($displaying["completion_percentage"]) ?>%</div>

@@ -107,6 +107,7 @@ use Utilities\CSRF;
                     }
 
                     $this->TaskModel->create("task_assignment", $junctionData);
+                    $this->ProjectModel->recalcCompletion($taskProj);
 
                     header("Location: ?action=kanban&id=$taskProj&name=$projeName");
                     exit;
@@ -157,6 +158,7 @@ use Utilities\CSRF;
                 }
 
                 $this->TaskModel->update("task", ["status" => $newStatus], ["id" => $taskId]);
+                $this->ProjectModel->recalcCompletion($projectId);
 
                 header("Location: ?action=kanban&id=$projectId&success=status-updated");
                 exit;
