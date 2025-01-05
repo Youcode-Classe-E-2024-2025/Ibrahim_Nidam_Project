@@ -59,4 +59,29 @@
                 }
             }
         }
+
+        public function toggleVisibility(){
+            if ($_SERVER["REQUEST_METHOD"] === "POST") {
+                $projectId = $_POST["project_id"] ?? null;
+                $isPublic = $_POST["isPublic"] ?? null;
+                $userId = $_SESSION["user_id"] ?? null;
+
+                if (is_null($projectId) || is_null($isPublic) || is_null($userId)) {
+                    header("Location: ?action=home&error=missing-data&projId=$projectId&isPubli=$isPublic&userId=$userId");
+                    exit;
+                }
+
+                $project = $this->ProjectModel->read("project", ["id" => $projectId])[0] ?? null;
+
+                if (!$project || $project["manager_id"] != $userId) {
+                    header("Location: ?action=home&error=not-authorized");
+                    exit;
+                }
+
+                $this->ProjectModel->update("project", ["isPublic" => $isPublic], ["id" => $projectId]);
+                header("Location: ?action=home&success=visibility-updated");
+                exit;
+            }
+        }
+
     }

@@ -53,4 +53,21 @@
                 return $this->db->lastInsertId();
             }
         }
+
+        public function update($table, $data, $conditions){
+            $set = [];
+            $where = [];
+            foreach ($data as $key => $value) {
+                $set[] = "{$key} = :{$key}";
+            }
+            foreach ($conditions as $key => $value) {
+                $where[] = "{$key} = :cond_{$key}";
+            }
+            $sql = "UPDATE {$table} SET " . implode(", ", $set) . " WHERE " . implode(" AND ", $where);
+            $stmt = $this->db->prepare($sql);
+
+            $params = array_merge($data, array_combine(array_map(fn($k) => "cond_$k", array_keys($conditions)), array_values($conditions)));
+            $stmt->execute($params);
+        }
+
     }
