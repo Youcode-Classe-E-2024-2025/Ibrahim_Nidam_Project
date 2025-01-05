@@ -29,19 +29,36 @@
     </div>
 
     <div class="px-10 mt-6">
-        <div class="flex items-center justify-between">
+    <div class="flex items-center justify-between">
         <h1 class="text-2xl font-bold">Projects</h1>
-        <a href="#"
-            class="flex items-center gap-2 py-2 px-4 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold transition-colors"
-            onclick="openModal()"
-        >
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
-            </svg>
-            Add Project
-        </a>
-        </div>
+        <?php if (isset($_SESSION["user_role"]) && $_SESSION["user_role"] === "Project Manager"): ?>
+            <a href="#"
+                id="addProjectButton"
+                class="flex items-center gap-2 py-2 px-4 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold transition-colors"
+                onclick="openModal()"
+            >
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+                </svg>
+                Add Project
+            </a>
+        <?php else: ?>
+            <div class="flex flex-col">
+                <a href="#"
+                    id="disabledAddProjectButton"
+                    class="flex items-center gap-2 py-2 px-4 bg-gray-500 cursor-not-allowed text-white font-semibold transition-colors"
+                    onclick="showNoPermissionMessage(event)"
+                >
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+                    </svg>
+                    Add Project
+                </a>
+                <p id="permissionMessage" class="text-sm text-red-500 hidden mt-2">You do not have permission to create projects.</p>
+            </div>
+        <?php endif; ?>
     </div>
+</div>
 
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 px-10 mt-8 py-4">
         <?php $displayPrjects = array(); foreach($projects as $project){$displayPrjects[] = $project;} ?>
@@ -220,6 +237,21 @@
         function closeModal() {
             document.getElementById('modalOverlay').classList.add('hidden');
             document.getElementById('modalOverlay').classList.remove('flex');
+        }
+
+        function showNoPermissionMessage(event) {
+            // event.preventDefault();
+
+            const buttonElement = document.getElementById('disabledAddProjectButton');
+            const messageElement = document.getElementById('permissionMessage');
+
+            buttonElement.classList.add('hidden');
+            messageElement.classList.remove('hidden');
+
+            setTimeout(() => {
+                messageElement.classList.add('hidden');
+                buttonElement.classList.remove('hidden');
+            }, 2000);
         }
     </script>
 

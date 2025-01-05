@@ -71,6 +71,7 @@
                     session_start();
                     $_SESSION["user_id"] = $user[0]["id"];
                     $_SESSION["user_name"] = $user[0]["name"];
+                    $_SESSION["user_role"] = $user[0]["role"];
                     header("Location: ?action=home");
                     exit;
                 }else {
