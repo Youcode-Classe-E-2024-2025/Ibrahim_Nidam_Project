@@ -56,8 +56,8 @@
                     <?php foreach ($filteredTasks as $displaying): ?>
                         <?php
                             $projectOwnerId = $project["manager_id"];
-                            $isOwner = ($_SESSION["user_id"] == $projectOwnerId);
-                            $isAssigned = in_array($_SESSION["user_name"], $displaying["assigned_users"]);
+                            $isOwner = (isset($_SESSION["user_id"]) && $_SESSION["user_id"] == $projectOwnerId);
+                            $isAssigned = isset($_SESSION["user_name"]) && in_array($_SESSION["user_name"], $displaying["assigned_users"]);
                             $isAllowed = ($isOwner || $isAssigned);
                         ?>
 

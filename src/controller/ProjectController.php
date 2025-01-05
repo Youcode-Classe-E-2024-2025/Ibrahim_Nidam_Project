@@ -9,7 +9,7 @@
 
 
         public function displayProjects(){
-            $userId = $_SESSION["user_id"];
+            $userId = $_SESSION["user_id"] ?? null;
             return $this->ProjectModel->getAllProjects($userId);
         }
 
@@ -68,6 +68,11 @@
 
                 if (is_null($projectId) || is_null($isPublic) || is_null($userId)) {
                     header("Location: ?action=home&error=missing-data&projId=$projectId&isPubli=$isPublic&userId=$userId");
+                    exit;
+                }
+
+                if (is_null($userId)) { // Guest user scenario
+                    header("Location: ?action=home&error=guest-action-not-allowed");
                     exit;
                 }
 
