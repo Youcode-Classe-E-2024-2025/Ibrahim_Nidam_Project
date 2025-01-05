@@ -38,7 +38,7 @@ CREATE TABLE IF NOT EXISTS Task (
     startDate DATE,
     endDate DATE,
     status ENUM('TODO', 'DOING', 'REVIEW', 'DONE') DEFAULT 'TODO',
-    tag_id INT,
+    tag_id INT DEFAULT NULL,
     category_id INT NOT NULL,
     project_id INT NOT NULL,
     FOREIGN KEY (tag_id) REFERENCES Tag(id) ON DELETE SET NULL,

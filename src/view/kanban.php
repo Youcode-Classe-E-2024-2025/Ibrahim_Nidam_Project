@@ -21,7 +21,7 @@
         </div>
     </div>
     <div class="px-10 mt-6 flex justify-between items-center">
-        <h1 class="text-2xl font-bold">Team Project Board</h1>
+        <h1 class="text-2xl font-bold">Team Project Board || <?= $_GET["name"] ?></h1>
         <a href="?action=home"><h1 class="italic underline hover:text-indigo-500 text-xl">← Go back</h1></a>
     </div>
 
@@ -91,7 +91,7 @@
     <div class="bg-white text-gray-800 p-8 rounded-lg shadow-lg max-w-md w-full">
         <h2 class="text-xl font-bold mb-4">Add New Task</h2>
 
-        <form id="taskForm" method="POST" action="?action=addTask">
+        <form id="taskForm" method="POST" action="?action=addTask&id=<?=$_GET["id"]?>&name=<?=$_GET["name"]?>">
             <input type="hidden" name="project_id" value="<?= htmlspecialchars($_GET['id']) ?>">
             <input type="hidden" name="csrf_token" value="<?= \Utilities\CSRF::getToken("addTask") ?>">
 
@@ -131,7 +131,7 @@
 
             <label class="block mb-4">
                 <span class="text-gray-600">Assign Users</span>
-                <select name="assigned_users[]" class="chosen-select mt-1 block w-full border p-2 rounded" multiple>
+                <select required name="assigned_users[]" class="chosen-select mt-1 block w-full border p-2 rounded" multiple>
                     <?php 
                     if (!empty($availableUsers)) {
                         foreach ($availableUsers as $user): ?>

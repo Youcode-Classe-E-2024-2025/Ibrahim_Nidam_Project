@@ -50,7 +50,7 @@
 
                     $this->ProjectModel->create("Project_Assignment", $junctionData);
 
-                    header("Location: ?action=home&success=true");
+                    header("Location: ?action=home");
                     exit;
                 } else {
                     header("Location: ?action=error=true");

@@ -6,7 +6,7 @@
         <meta name="description" content="a knaban app for organizing your tasks and projects" />
         <meta name="keywords" content="kanban,task manager, project manager" />
         <meta name="author" content="Ibrahim Nidam" />
-        <title>Kanban</title>
+        <title>Kanban <?= isset($_GET["name"]) ? "|| " . htmlspecialchars($_GET["name"]) : ""; ?></title>
 
         <script src="https://cdn.tailwindcss.com"></script>
 
