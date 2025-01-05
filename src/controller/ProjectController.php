@@ -9,7 +9,8 @@
 
 
         public function displayProjects(){
-            return $this->ProjectModel->getAllProjects();
+            $userId = $_SESSION["user_id"];
+            return $this->ProjectModel->getAllProjects($userId);
         }
 
         public function showProjectView(){

@@ -1,6 +1,6 @@
 <?php require_once "sections/head.php"; ?>
 
-<body class="bg-gradient-to-tr from-[#2a464e] via-[#243b42] to-[#1d2b31] text-gray-200 w-screen overflow-auto">
+<body class="bg-gradient-to-tr from-[#2a464e] via-[#243b42] to-[#1d2b31] text-gray-200 w-screen min-h-screen overflow-auto">
 
     <div class="flex flex-col w-full">
         <div class="flex justify-between items-center h-16 px-10 bg-white bg-opacity-75">
