@@ -7,12 +7,11 @@
         private $table = "project";
 
         public function getAllProjects($userId) {
-            $sql = "
-                SELECT DISTINCT p.*, GROUP_CONCAT(pa.person_id) AS assigned_users
-                FROM project p
-                LEFT JOIN Project_Assignment pa ON p.id = pa.project_id
-                WHERE p.isPublic = 1 OR pa.person_id = :userId OR p.manager_id = :userId
-                GROUP BY p.id
+            $sql = "SELECT DISTINCT p.*, GROUP_CONCAT(pa.person_id) AS assigned_users
+                    FROM project p
+                    LEFT JOIN Project_Assignment pa ON p.id = pa.project_id
+                    WHERE p.isPublic = 1 OR pa.person_id = :userId OR p.manager_id = :userId
+                    GROUP BY p.id
             ";
             $stmt = $this->db->prepare($sql);
             $stmt->execute(['userId' => $userId]);

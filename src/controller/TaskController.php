@@ -66,9 +66,10 @@ use Utilities\CSRF;
             $sql = "SELECT DISTINCT p.id as person_id, p.name AS user_name 
                     FROM Person p 
                     INNER JOIN Project_Assignment pa ON p.id = pa.person_id 
-                    WHERE pa.project_id = :project_id 
-                    AND p.role = 'Member'"
-            ;
+                    WHERE pa.project_id = :project_id
+                    AND p.role = 'Project Manager'
+            ";
+            
             $availableUsers = $this->TaskModel->query($sql, ["project_id" => $_GET["id"]]);
 
             return ["categories" => $categories,

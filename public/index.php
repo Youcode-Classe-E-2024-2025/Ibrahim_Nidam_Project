@@ -11,7 +11,7 @@
     
     $action = $_GET["action"] ?? null;
 
-    $validActions = ["login", "logout", "signup", "home", "dashboard", "addProject","kanban","addTask","toggleVisibility", "updateTaskStatus"];
+    $validActions = ["login", "logout", "signup", "home", "dashboard", "addProject","kanban","addTask","toggleVisibility", "updateTaskStatus", "TagsAndCategories"];
 
     if($action && !in_array($action, $validActions)){
         http_response_code(404);
@@ -58,6 +58,10 @@
             $controller->$action();
             break;
         case "dashboard":
+            $controller = new PageController();
+            $controller->$action();
+            break;
+        case "TagsAndCategories":
             $controller = new PageController();
             $controller->$action();
             break;

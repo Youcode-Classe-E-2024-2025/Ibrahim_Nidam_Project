@@ -70,4 +70,18 @@
             $stmt->execute($params);
         }
 
+        public function delete($table, $conditions) {
+
+            $where = [];
+            foreach($conditions as $key => $value){
+                $where[] = "{$key} = :{$key}";
+            }
+
+            $sql = "DELETE FROM {$table} WHERE " . implode(" AND ", $where);
+
+            $stmt = $this->db->prepare($sql);
+            $stmt->execute($conditions);
+            return $stmt->rowCount();
+        }
+
     }

@@ -24,4 +24,8 @@
         public function dashboard(){
             require_once "../src/view/dashboard.php";
         }
+
+        public function TagsAndCategories(){
+            require_once "../src/view/tags_cats.php";
+        }
     }

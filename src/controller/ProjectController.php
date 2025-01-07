@@ -67,11 +67,11 @@
                 $userId = $_SESSION["user_id"] ?? null;
 
                 if (is_null($projectId) || is_null($isPublic) || is_null($userId)) {
-                    header("Location: ?action=home&error=missing-data&projId=$projectId&isPubli=$isPublic&userId=$userId");
+                    header("Location: ?action=home&error=missing-data&projId=$projectId&isPublic=$isPublic&userId=$userId");
                     exit;
                 }
 
-                if (is_null($userId)) { // Guest user scenario
+                if (is_null($userId)) { 
                     header("Location: ?action=home&error=guest-action-not-allowed");
                     exit;
                 }

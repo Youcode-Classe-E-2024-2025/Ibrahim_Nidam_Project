@@ -6,7 +6,7 @@
         private $table = "person";
 
         public function getAllUsers() {
-            return $this->read($this->table, ["role" => "Member"]);
+            return $this->read($this->table, ["role" => "Project Manager"]);
         }
         
     }
