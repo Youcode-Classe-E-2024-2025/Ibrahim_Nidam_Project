@@ -1,14 +1,18 @@
 <?php
     namespace Controller;
 
+    use Model\TagCategoryModel;
+
     // use Controller\ProjectController;
     class PageController extends MainController {
         protected $ProjectController;
         protected $UserController;
+        protected $TagCategoryController;
 
         public function __construct(){
             $this->ProjectController = new ProjectController();
             $this->UserController = new UserController();
+            $this->TagCategoryModel = new TagCategoryModel();
         }
 
         public function home(){
@@ -26,6 +30,8 @@
         }
 
         public function TagsAndCategories(){
+            $projectId = $_GET["project_id"];
+            $tagsAndCategs = $this->TagCategoryModel->getAllCatsTags($projectId);
             require_once "../src/view/tags_cats.php";
         }
     }
