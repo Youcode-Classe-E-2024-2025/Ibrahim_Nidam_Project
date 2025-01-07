@@ -4,6 +4,7 @@
 
     use Connection\Database;
     use Model\ProjectModel;
+    use Model\TagCategoryModel;
     use Model\TaskModel;
     use Model\UserModel;
 
@@ -11,10 +12,12 @@
         protected $UserModel;
         protected $ProjectModel;
         protected $TaskModel;
+        protected $TagCategoryModel;
 
         public function __construct(){
             $this->UserModel = new UserModel();
             $this->ProjectModel = new ProjectModel();
             $this->TaskModel = new TaskModel();
+            $this->TagCategoryModel = new TagCategoryModel();
         }
     }

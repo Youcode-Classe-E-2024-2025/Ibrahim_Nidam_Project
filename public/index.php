@@ -3,6 +3,7 @@
 
     use Controller\PageController;
     use Controller\ProjectController;
+    use Controller\TagCategoryController;
     use Controller\TaskController;
     use Controller\UserController;
     
@@ -11,7 +12,7 @@
     
     $action = $_GET["action"] ?? null;
 
-    $validActions = ["login", "logout", "signup", "home", "dashboard", "addProject","kanban","addTask","toggleVisibility", "updateTaskStatus", "TagsAndCategories"];
+    $validActions = ["login", "logout", "signup", "home", "dashboard", "addProject","kanban","addTask","toggleVisibility", "updateTaskStatus", "TagsAndCategories", "addTagOrCategory"];
 
     if($action && !in_array($action, $validActions)){
         http_response_code(404);
@@ -63,6 +64,10 @@
             break;
         case "TagsAndCategories":
             $controller = new PageController();
+            $controller->$action();
+            break;
+        case "addTagOrCategory":
+            $controller = new TagCategoryController();
             $controller->$action();
             break;
         default:
