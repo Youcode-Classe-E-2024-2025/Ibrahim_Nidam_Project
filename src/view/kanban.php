@@ -9,7 +9,9 @@
             <div class="ml-10">
                 <a class="mx-2 text-sm font-semibold text-gray-600 hover:text-indigo-700" href="?action=home">Projects</a>
                 <a class="mx-2 text-sm font-semibold text-gray-600 hover:text-indigo-700" href="?action=dashboard">Dashboard</a>
-                <a href="?action=TagsAndCategories&project_id=<?= $_GET['id'] ?>&name=<?= $_GET["name"]?>" class="mx-2 text-sm font-semibold text-gray-600 hover:text-indigo-700">Tags & Categories</a>
+                <?php if(isset($_SESSION["user_id"]) && $_SESSION["user_id"] == $project["manager_id"]):?>
+                    <a href="?action=TagsAndCategories&project_id=<?= $_GET['id'] ?>&name=<?= $_GET["name"]?>" class="mx-2 text-sm font-semibold text-gray-600 hover:text-indigo-700">Tags & Categories</a>
+                <?php endif; ?>
             </div>
         </div>
         <div class="flex gap-4 items-center">
@@ -121,7 +123,6 @@
                                     </div>
                                 </details>
                             <?php else: ?>
-                                <!-- Not allowed: static icon with disabled cursor -->
                                 <div 
                                     class="absolute top-0 right-0 mt-3 mr-2 flex items-center justify-center w-5 h-5 text-gray-400 rounded cursor-not-allowed"
                                     title="You are not allowed to change the status"

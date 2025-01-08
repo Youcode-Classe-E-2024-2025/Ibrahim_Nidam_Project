@@ -22,16 +22,16 @@ use Utilities\CSRF;
             $tasks = $this->displayTasks();
             $tagsCategories = $this->displayTagsCategories();
             $assignedUsers = $this->displayAssignedUsers();
-
+        
             $formData = $this->populateTaskForm();
             $categories = $formData["categories"];
             $tags = $formData["tags"];
             $availableUsers = $formData["availableUsers"];
-
+        
             $projectId = (int) $_GET["id"];
             $projectResult = $this->TaskModel->read("project", ["id" => $projectId]);
             $project = $projectResult[0] ?? null;
-            
+        
             foreach ($tasks as &$task) {
                 $task["category_name"] = "Unknown Category";
                 $task["tag_name"] = "General";
@@ -54,29 +54,35 @@ use Utilities\CSRF;
         
             require_once __DIR__ . "/../view/kanban.php";
         }
+        
 
         public function populateTaskForm(){
-            
-            $table = "category";
-            $categories = $this->TaskModel->read($table);
-
-            $table = "tag";
-            $tags = $this->TaskModel->read($table);
-
+            $projectId = $_GET["id"];
+        
+            $sql = "SELECT c.id, c.name FROM category c
+                    INNER JOIN Project_Category_Tag pct ON c.id = pct.category_id
+                    WHERE pct.project_id = :project_id";
+            $categories = $this->TaskModel->query($sql, ["project_id" => $projectId]);
+        
+            $sql = "SELECT tg.id, tg.name FROM tag tg
+                    INNER JOIN Project_Category_Tag pct ON tg.id = pct.tag_id
+                    WHERE pct.project_id = :project_id";
+            $tags = $this->TaskModel->query($sql, ["project_id" => $projectId]);
+        
             $sql = "SELECT DISTINCT p.id as person_id, p.name AS user_name 
                     FROM Person p 
                     INNER JOIN Project_Assignment pa ON p.id = pa.person_id 
                     WHERE pa.project_id = :project_id
-                    AND p.role = 'Project Manager'
-            ";
-            
-            $availableUsers = $this->TaskModel->query($sql, ["project_id" => $_GET["id"]]);
-
-            return ["categories" => $categories,
-                    "tags" => $tags,
-                    "availableUsers" => $availableUsers
+                    AND p.role = 'Project Manager'";
+            $availableUsers = $this->TaskModel->query($sql, ["project_id" => $projectId]);
+        
+            return [
+                "categories" => $categories,
+                "tags" => $tags,
+                "availableUsers" => $availableUsers
             ];
         }
+        
 
         public function addTask(){
             

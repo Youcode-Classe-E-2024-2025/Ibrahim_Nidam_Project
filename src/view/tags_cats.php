@@ -21,8 +21,10 @@
     </div>
     
     <div class="px-10 mt-6">
-    <h1 class="text-2xl font-bold">Manage Categories and Tags : <span class="underline"><?= htmlspecialchars($_GET["name"]) ?></span></h1>
-    
+        <div class="px-10 mt-6 flex justify-between items-center">
+            <h1 class="text-2xl font-bold">Manage Categories and Tags : <span class="underline"><?= htmlspecialchars($_GET["name"]) ?></span></h1>
+            <a href="?action=kanban&id=<?=$_GET["project_id"]?>&name=<?=$_GET["name"]?>"><h1 class="italic underline hover:text-indigo-500 text-xl">← Go back</h1></a>
+        </div>
     <div class="flex justify-evenly mt-6">
         <!-- Categories Table -->
         <div class="w-1/2 px-4">
