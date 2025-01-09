@@ -32,371 +32,42 @@
 
 <div id="mainSection" class="tab-content">
     <div class="px-10 mt-6">
-    <div class="flex items-center justify-between">
-        <h1 class="text-2xl font-bold">Projects</h1>
-        <?php if (isset($_SESSION["user_role"]) && $_SESSION["user_role"] === "Project Manager"): ?>
-            <a href="#"
-                id="addProjectButton"
-                class="flex items-center gap-2 py-2 px-4 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold transition-colors"
-                onclick="openModal()"
-            >
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
-                </svg>
-                Add Project
-            </a>
-        <?php else: ?>
-            <div class="flex flex-col">
+        <div class="flex items-center justify-between">
+            <h1 class="text-2xl font-bold">Projects</h1>
+            <?php if (isset($_SESSION["user_role"]) && $_SESSION["user_role"] === "Project Manager"): ?>
                 <a href="#"
-                    id="disabledAddProjectButton"
-                    class="flex items-center gap-2 py-2 px-4 bg-gray-500 cursor-not-allowed text-white font-semibold transition-colors"
-                    onclick="showNoPermissionMessage(event)"
+                    id="addProjectButton"
+                    class="flex items-center gap-2 py-2 px-4 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold transition-colors"
+                    onclick="openModal()"
                 >
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
                     </svg>
                     Add Project
                 </a>
-                <p id="permissionMessage" class="text-sm text-red-500 hidden mt-2">You do not have permission to create projects.</p>
-            </div>
-        <?php endif; ?>
-    </div>
-</div>
-
-<?php $displayProjects = array(); foreach ($projects as $project) { $displayProjects[] = $project; } ?>
-<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 px-10 mt-8 py-4">
-    <?php foreach ($displayProjects as $displaying): ?>
-        <?php
-            $currentUserId = $_SESSION["user_id"] ?? null; // If not set, default to null
-            $isOwner = ($currentUserId !== null && $currentUserId == $displaying["manager_id"]);
-            $isAssigned = ($currentUserId !== null && in_array($currentUserId, $displaying["assigned_users"] ?? []));
-            $isAllowed = ($isOwner || $isAssigned);
-        ?>
-        <div data-project-id="<?= htmlspecialchars($displaying["id"]) ?>" class="bg-white cursor-pointer bg-opacity-90 rounded p-5 text-gray-800 shadow-md hover:bg-opacity-100 transition-colors relative group">
-            <?php if ($isAllowed): ?>
-                <span class="absolute inset-0 rounded border-[3px] border-rose-700 animate-pulse pointer-events-none"></span>
-            <?php endif; ?>
-
-            <form method="POST" action="?action=toggleVisibility" class="absolute top-3 right-3">
-                <input type="hidden" name="project_id" value="<?= htmlspecialchars($displaying["id"]) ?>">
-                <input type="hidden" name="isPublic" value="<?= $displaying["isPublic"] ? 0 : 1 ?>">
-                <button type="submit" class="text-gray-500 hover:text-gray-700">
-                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                        <?= $displaying["isPublic"] == 1
-                            ? '<path d="M17 8V7c0-2.757-2.243-5-5-5S7 4.243 7 7v1H6c-1.103 0-2 .897-2 2v8c0 1.103.897 2 2 2h12c1.103 0 2-.897 2-2v-8c0-1.103-.897-2-2-2h-1zm-6-1c0-1.654 1.346-3 3-3s3 1.346 3 3v1H11V7z"/>'
-                            : '<path d="M12 2C9.243 2 7 4.243 7 7v3H6c-1.103 0-2 .897-2 2v8c0 1.103.897 2 2 2h12c1.103 0 2-.897 2-2v-8c0-1.103-.897-2-2-2h-1V7c0-2.757-2.243-5-5-5zM9 7c0-1.654 1.346-3 3-3s3 1.346 3 3v3H9V7zm7 14H8v-6h8v6z"/>'; ?>
-                    </svg>
-                </button>
-            </form>
-
-            <a href="?action=kanban&id=<?= htmlspecialchars($displaying["id"]) ?>&name=<?= htmlspecialchars($displaying["name"]) ?>" class="block">
-                <h2 class="text-lg font-bold text-gray-800 mb-2"><?= htmlspecialchars($displaying["name"]) ?></h2>
-                <div class="text-sm text-gray-600 mb-3">Completion: <?= htmlspecialchars($displaying["completion_percentage"]) ?>%</div>
-                <div class="w-full bg-gray-200 rounded-full h-2 mb-3">
-                    <div class="<?= htmlspecialchars($displaying["completion_percentage"]) < 40 ? "bg-red-500" : (htmlspecialchars($displaying["completion_percentage"]) < 80 ? "bg-yellow-500" : "bg-green-500"); ?> h-2 rounded-full" style="width: <?= $displaying["completion_percentage"] ?>%;"></div>
+            <?php else: ?>
+                <div class="flex flex-col">
+                    <a href="#"
+                        id="disabledAddProjectButton"
+                        class="flex items-center gap-2 py-2 px-4 bg-gray-500 cursor-not-allowed text-white font-semibold transition-colors"
+                        onclick="showNoPermissionMessage(event)"
+                    >
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+                        </svg>
+                        Add Project
+                    </a>
+                    <p id="permissionMessage" class="text-sm text-red-500 hidden mt-2">You do not have permission to create projects.</p>
                 </div>
-                <p class="text-sm text-gray-600"><?= htmlspecialchars($displaying["description"]) ?>.</p>
-            </a>
-        </div>
-    <?php endforeach; ?>
-</div>
-</div>
-
-<div id="modalOverlay" class="fixed inset-0 bg-black bg-opacity-50 hidden justify-center items-center z-50">
-    <div class="bg-white text-gray-800 p-8 border border-gray-300 shadow-lg w-full max-w-md">
-        <h2 class="text-xl font-bold mb-4">Add New Project</h2>
-        <form method="POST" action="?action=addProject">
-        <?php $csrf_token = \Utilities\CSRF::getToken("addProjectForm"); ?>
-        <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($csrf_token) ?>">
-            <label class="block mb-4">
-                <span class="text-gray-600">Project Name</span>
-                <input
-                type="text"
-                name="project_name"
-                class="mt-1 block w-full border border-gray-300 focus:ring focus:border-blue-500 p-2"
-                />
-            </label>
-        
-        <label class="block mb-4">
-            <span class="text-gray-600">Description</span>
-            <textarea
-            name="project_description"
-            class="mt-1 block w-full border border-gray-300 focus:ring focus:border-blue-500 p-2"
-            ></textarea>
-        </label>
-
-        <label class="block mb-4">
-            <span class="text-gray-600 mr-4">Visibility : </span>
-            <div id="publicPrivateToggle" class="inline-flex mt-2 select-none">
-                <button
-                id="privateBtn"
-                type="button"
-                class="px-4 py-2 text-white bg-gradient-to-tr from-[#2a464e] via-[#243b42] to-[#1d2b31]"
-                onclick="togglePublicPrivate(false)"
-                >
-                Private
-                </button>
-                <button
-                id="publicBtn"
-                type="button"
-                class="px-4 py-2 bg-gray-200 text-gray-800"
-                onclick="togglePublicPrivate(true)"
-                >
-                Public
-                </button>
-            </div>
-            <input type="hidden" name="isPublic" id="isPublicInput" value="0" />
-        </label>
-
-        <label class="block mb-4">
-            <span class="text-gray-600">Add Collaborators</span>
-            <select
-                class="chosen-select mt-1 w-full"
-                name="project_users[]"
-                multiple
-                data-placeholder="Select members...">
-                <?php if(!empty($users)): ?>
-                    <?php foreach($users as $user): ?>
-                        <option value="<?= $user["id"] ?>"><?= $user["name"] ?></option>
-                    <?php endforeach; ?>
-                <?php else : ?>
-                    <option value=""><?= "No Users" ?></option>    
-                <?php endif; ?>
-            </select>
-        </label>
-
-        <div class="flex justify-end">
-            <button
-            type="button"
-            class="px-4 py-2 mr-2 border border-gray-300 text-gray-800 hover:bg-gray-200 transition"
-            onclick="closeModal()"
-            >
-            Cancel
-            </button>
-            <button
-            type="submit"
-            class="px-4 py-2 border bg-indigo-600 text-white hover:bg-indigo-700 transition"
-            >
-            Create
-            </button>
-        </div>
-        <input type="hidden" name="manager_id" value="<?= $_SESSION["user_id"] ?>">
-        </form>
-    </div>
-    </div>
-
-    <!-- Pending Requests Section -->
-    <div id="pendingSection" class="tab-content hidden mb-8 px-10 mt-6">
-        <h1 class="text-2xl font-bold mb-4">Pending Requests</h1>
-        <div class="bg-white p-6 rounded-lg shadow-md mb-8">
-            <ul class="divide-y divide-gray-200">
-                <?php if (isset($pendingRequests["pendingRequests"]) && !empty($pendingRequests["pendingRequests"])): ?>
-                    <?php foreach ($pendingRequests["pendingRequests"] as $request): ?>
-
-                        <li class="py-4">
-                            <div class="flex items-center justify-between">
-                                <div class="flex-1">
-                                    <p class="text-sm font-medium text-gray-900">
-                                        <?= htmlspecialchars($request["user_name"]) ?>
-                                    </p>
-                                    <p class="text-sm text-gray-500">
-                                        Requesting to join: <?= htmlspecialchars($request["project_name"]) ?>
-                                    </p>
-                                </div>
-                                <div class="flex gap-2">
-                                    <form method="POST" action="?action=approveRequest" class="inline">
-                                        <input type="hidden" name="project_id" value="<?= htmlspecialchars($request["project_id"]) ?>">
-                                        <input type="hidden" name="person_id" value="<?= htmlspecialchars($request["person_id"]) ?>">
-                                        <button type="submit" class="bg-green-500 text-white px-3 py-1 rounded-md text-sm hover:bg-green-600 transition">
-                                            Approve
-                                        </button>
-                                    </form>
-                                    <form method="POST" action="?action=disapproveRequest" class="inline">
-                                        <input type="hidden" name="project_id" value="<?= htmlspecialchars($request["project_id"]) ?>">
-                                        <input type="hidden" name="person_id" value="<?= htmlspecialchars($request["person_id"]) ?>">
-                                        <button type="submit" class="bg-red-500 text-white px-3 py-1 rounded-md text-sm hover:bg-red-600 transition">
-                                            Disapprove
-                                        </button>
-                                    </form>
-                                </div>
-                            </div>
-                        </li>
-                    <?php endforeach; ?>
-                <?php else: ?>
-                    <li class="py-4 text-gray-500">No pending requests at the moment.</li>
-                <?php endif; ?>
-            </ul>
-        </div>
-
-        <h1 class="text-2xl font-bold mb-4">Assigned Users</h1>
-        <div class="bg-white p-6 rounded-lg shadow-md">
-            <div class="overflow-x-auto">
-                <table class="min-w-full divide-y divide-gray-200">
-                    <thead class="bg-gray-50">
-                        <tr>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">User</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Project</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Role</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody class="bg-white divide-y divide-gray-200">
-                        <?php if (isset($pendingRequests["getProjectsAssignedUsers"]) && !empty($pendingRequests["getProjectsAssignedUsers"])): ?>
-                            <?php foreach ($pendingRequests["getProjectsAssignedUsers"] as $user): ?>
-                                <tr>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="text-sm font-medium text-gray-900">
-                                            <?= htmlspecialchars($user["user_name"]) ?>
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="text-sm text-gray-900">
-                                            <?= htmlspecialchars($user["project_name"]) ?>
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                                            <?= htmlspecialchars($user["role"]) ?>
-                                        </span>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                        <form method="POST" action="?action=removeUserFromProject" class="inline">
-                                            <input type="hidden" name="project_id" value="<?= htmlspecialchars($user["project_id"]) ?>">
-                                            <input type="hidden" name="person_id" value="<?= htmlspecialchars($user["person_id"]) ?>">
-                                            <button type="submit" class="text-red-600 hover:text-red-900">
-                                                Remove
-                                            </button>
-                                        </form>
-                                    </td>
-                                </tr>
-                            <?php endforeach; ?>
-                        <?php else: ?>
-                            <tr>
-                                <td colspan="4" class="px-6 py-4 text-center text-gray-500">
-                                    No users assigned to your projects.
-                                </td>
-                            </tr>
-                        <?php endif; ?>
-                    </tbody>
-                </table>
-            </div>
+            <?php endif; ?>
         </div>
     </div>
 
-    <script>
+    <?php require_once "displayProjects.php" ?>
+    <?php require_once "addProjectModal.php" ?>
+    <?php require_once "pending.php" ?>
+    <?php require_once "projectJS.php" ?>
 
-        function showTab(tabId) {
-            const mainSection = document.getElementById('mainSection');
-            const selectedSection = document.getElementById(tabId + 'Section');
-
-            const projectsLink = document.getElementById('projectsLink');
-            const pendingLink = document.getElementById('pendingLink');
-
-            if (!selectedSection.classList.contains('hidden')) {
-                selectedSection.classList.add('hidden');
-                if (tabId === 'pending') {
-                    mainSection.classList.remove('hidden');
-                    pendingLink.classList.remove('text-indigo-700');
-                    pendingLink.classList.add('text-gray-600', 'hover:text-indigo-700');
-                    projectsLink.classList.remove('text-gray-600');
-                    projectsLink.classList.add('text-indigo-700');
-                }
-            } else {
-                document.querySelectorAll('.tab-content').forEach((section) => {
-                    section.classList.add('hidden');
-                });
-                selectedSection.classList.remove('hidden');
-
-                if (tabId === 'pending') {
-                    pendingLink.classList.add('text-indigo-700');
-                    pendingLink.classList.remove('text-gray-600', 'hover:text-indigo-700');
-                    projectsLink.classList.add('text-gray-600');
-                    projectsLink.classList.remove('text-indigo-700');
-                } else {
-                    projectsLink.classList.add('text-indigo-700');
-                    projectsLink.classList.remove('text-gray-600');
-                    pendingLink.classList.remove('text-indigo-700');
-                    pendingLink.classList.add('text-gray-600', 'hover:text-indigo-700');
-                }
-            }
-        }
-
-
-
-        function toggleLock(event, btn) {
-            // event.stopPropagation();
-            
-        const isLocked = (btn.getAttribute('data-locked') === 'true');
-        const svg = btn.querySelector('.lock-icon');
-
-        if (isLocked) {
-            svg.innerHTML = `
-            <path d="M17 8V7c0-2.757-2.243-5-5-5S7 4.243 
-                7 7v1H6c-1.103 0-2 .897-2 
-                2v8c0 1.103.897 2 2 
-                2h12c1.103 0 2-.897 
-                2-2v-8c0-1.103-.897-2-2-2h-1zm-6-1c0-1.654 
-                1.346-3 3-3s3 1.346 3 3v1H11V7z"/>
-            `;
-            btn.setAttribute('data-locked', 'false');
-        } else {
-            svg.innerHTML = `
-            <path d="M12 2C9.243 2 7 4.243 7 7v3H6c-1.103 
-                0-2 .897-2 2v8c0 1.103.897 2 2 
-                2h12c1.103 0 2-.897 
-                2-2v-8c0-1.103-.897-2-2-2h-1V7c0-2.757-2.243-5-5-5zM9
-                7c0-1.654 1.346-3 3-3s3 1.346 3 3v3H9V7zm7 14H8v-6h8v6z"/>
-            `;
-            btn.setAttribute('data-locked', 'true');
-        }
-
-        }
-
-        $(function() {
-            $(".chosen-select").chosen({ width: "100%" });
-        });
-
-        function togglePublicPrivate(isPublic) {
-            const privateBtn = document.getElementById('privateBtn');
-            const publicBtn = document.getElementById('publicBtn');
-            const isPublicInput = document.getElementById('isPublicInput');
-
-            if (isPublic) {
-                publicBtn.className = 'px-4 py-2 text-white bg-gradient-to-tr from-[#2a464e] via-[#243b42] to-[#1d2b31]';
-                privateBtn.className = 'px-4 py-2 bg-gray-200 text-gray-800';
-                isPublicInput.value = '1';
-                } else {
-                privateBtn.className = 'px-4 py-2 text-white bg-gradient-to-tr from-[#2a464e] via-[#243b42] to-[#1d2b31]';
-                publicBtn.className = 'px-4 py-2 bg-gray-200 text-gray-800';
-                isPublicInput.value = '0';
-            }
-        }
-
-        function openModal() {
-            document.getElementById('modalOverlay').classList.remove('hidden');
-            document.getElementById('modalOverlay').classList.add('flex');
-        }
-
-        function closeModal() {
-            document.getElementById('modalOverlay').classList.add('hidden');
-            document.getElementById('modalOverlay').classList.remove('flex');
-        }
-
-        function showNoPermissionMessage(event) {
-            // event.preventDefault();
-
-            const buttonElement = document.getElementById('disabledAddProjectButton');
-            const messageElement = document.getElementById('permissionMessage');
-
-            buttonElement.classList.add('hidden');
-            messageElement.classList.remove('hidden');
-
-            setTimeout(() => {
-                messageElement.classList.add('hidden');
-                buttonElement.classList.remove('hidden');
-            }, 2000);
-        }
-    </script>
 
 </body>
 </html>

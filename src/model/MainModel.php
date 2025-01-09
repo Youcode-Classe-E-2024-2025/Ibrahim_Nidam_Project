@@ -30,13 +30,15 @@
 
         public function create($table, $data){
             
-            if(isset($data[0]) && is_array($data[0])){
+            if (isset($data[0]) && is_array($data[0])) {
                 $columns = implode(",", array_keys($data[0]));
                 $placeholders = "(" . implode(",", array_fill(0, count($data[0]), "?")) . ")";
-                $sql = "INSERT INTO {$table} ({$columns}) VALUES " . implode(",", array_fill(0, count($data), $placeholders));
+                $sql = "INSERT INTO {$table} ({$columns}) VALUES " . implode(",", array_fill(0, count($data), $placeholders)) . "
+                        ON DUPLICATE KEY UPDATE role = VALUES(role)
+                ";
 
                 $flatData = [];
-                foreach($data as $row){
+                foreach ($data as $row) {
                     $flatData = array_merge($flatData, array_values($row));
                 }
 
