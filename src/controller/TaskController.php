@@ -84,38 +84,59 @@ use Utilities\CSRF;
         }
         
 
-        public function addTask(){
-            
-            if($_SERVER["REQUEST_METHOD"] === "POST"){
-                if(!isset($_POST["csrf_token"]) || !CSRF::validateToken("addTask", $_POST["csrf_token"])){
+        public function addTask() {
+            if ($_SERVER["REQUEST_METHOD"] === "POST") {
+                if (!isset($_POST["csrf_token"]) || !\Utilities\CSRF::validateToken("addTask", $_POST["csrf_token"])) {
                     die("Invalid CSRF Token");
                 }
-                $projeName= $_GET["name"];
+        
+                $projeName = $_GET["name"];
                 $taskName = $_POST["title"];
                 $taskDesc = $_POST["description"];
-                $taskProj = $_GET["id"];
-                $taskCate = $_POST["category_id"];
-                $taskTag = $_POST["tag_id"] === "" ? null : $_POST["tag_id"];
+                $taskProj = $_GET["id"];  // Project ID
+                $taskCate = $_POST["category_id"];  // Category ID
+                $taskTag = $_POST["tag_id"] === "" ? null : $_POST["tag_id"];  // Tag ID or null
                 $taskUsers = $_POST["assigned_users"] ?? [];
-
+        
+                // Use the `read` method to fetch `project_category_tag_id`
+                $conditions = [
+                    "project_id" => $taskProj,
+                    "category_id" => $taskCate,
+                ];
+                
+                if ($taskTag) {
+                    $conditions["tag_id"] = $taskTag;
+                }
+        
+                $projectCategoryTag = $this->TaskModel->read("Project_Category_Tag", $conditions);
+        
+                if (empty($projectCategoryTag)) {
+                    header("Location: ?action=error&message=No matching Project Category Tag found");
+                    exit;
+                }
+        
+                $projectCategoryTagId = $projectCategoryTag[0]["id"];  // Get the first matching id
+        
                 $data = [
                     "title" => $taskName,
                     "description" => $taskDesc,
-                    "category_id" =>  $taskCate,
+                    "category_id" => $taskCate,
                     "tag_id" => $taskTag,
                     "project_id" => $taskProj,
+                    "project_category_tag_id" => $projectCategoryTagId
                 ];
-
+        
                 $taskId = $this->TaskModel->create("task", $data);
-                
-                if($taskId){
-                    foreach($taskUsers as $userId){
-                        $junctionData[] = ["task_id" => $taskId, "person_id" =>$userId];
+        
+                if ($taskId) {
+                    $junctionData = [];
+                    foreach ($taskUsers as $userId) {
+                        $junctionData[] = ["task_id" => $taskId, "person_id" => $userId];
                     }
-
+        
                     $this->TaskModel->create("task_assignment", $junctionData);
                     $this->ProjectModel->recalcCompletion($taskProj);
-
+        
                     header("Location: ?action=kanban&id=$taskProj&name=$projeName");
                     exit;
                 } else {
@@ -124,6 +145,7 @@ use Utilities\CSRF;
                 }
             }
         }
+        
 
         public function updateTaskStatus(){
 

@@ -46,6 +46,31 @@
                 "person_id" => $personId
             ]);
         }
+
+        public function getUserTasksInProject($projectId, $personId) {
+            $sql = "SELECT ta.task_id, t.title
+                    FROM task_assignment ta
+                    INNER JOIN task t ON ta.task_id = t.id
+                    WHERE t.project_id = :projectId AND ta.person_id = :personId";
+            $stmt = $this->db->prepare($sql);
+            $stmt->execute([
+                "projectId" => $projectId,
+                "personId" => $personId
+            ]);
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        }
+
+        public function getTaskAssignees($taskId, $excludedPersonId) {
+            $sql = "SELECT person_id FROM task_assignment
+                    WHERE task_id = :taskId AND person_id != :excludedPersonId";
+            $stmt = $this->db->prepare($sql);
+            $stmt->execute([
+                "taskId" => $taskId,
+                "excludedPersonId" => $excludedPersonId
+            ]);
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        }
+        
         
         public function getAssignedProjects($userId) {
             $sql = "SELECT p.*, pa.role

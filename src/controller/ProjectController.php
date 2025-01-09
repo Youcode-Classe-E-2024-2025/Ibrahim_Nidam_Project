@@ -151,25 +151,44 @@ class ProjectController extends MainController {
             $projectId = $_POST["project_id"] ?? null;
             $personId = $_POST["person_id"] ?? null;
             $managerId = $_SESSION["user_id"] ?? null;
-            
+    
             if (!$projectId || !$personId || !$managerId) {
                 header("Location: ?action=home&error=missing-data");
                 exit;
             }
-
+    
+            // Check authorization: Only project manager can remove users
             $project = $this->ProjectModel->read("project", ["id" => $projectId, "manager_id" => $managerId]);
             if (empty($project)) {
                 header("Location: ?action=home&error=not-authorized");
                 exit;
             }
-
+    
             if ($personId == $managerId) {
                 header("Location: ?action=home&error=cannot-remove-manager");
                 exit;
             }
-
+    
+            // Fetch tasks assigned to the user in the project
+            $tasksAssignedToUser = $this->ProjectModel->getUserTasksInProject($projectId, $personId);
+    
+            // Remove user from each task or delete tasks if no other users remain assigned
+            foreach ($tasksAssignedToUser as $task) {
+                $taskId = $task["task_id"];
+                $otherAssignees = $this->ProjectModel->getTaskAssignees($taskId, $personId);
+    
+                if (empty($otherAssignees)) {
+                    // No other assignees, remove the task assignment or optionally delete the task
+                    $this->ProjectModel->delete("task_assignment", ["task_id" => $taskId, "person_id" => $personId]);
+                } else {
+                    // Unassign the user but keep the task
+                    $this->ProjectModel->delete("task_assignment", ["task_id" => $taskId, "person_id" => $personId]);
+                }
+            }
+    
+            // Remove user from the project assignment
             $success = $this->ProjectModel->deleteProjectAssignment($projectId, $personId);
-            
+    
             if ($success) {
                 header("Location: ?action=home&success=user-removed");
             } else {
@@ -178,6 +197,7 @@ class ProjectController extends MainController {
             exit;
         }
     }
+    
 
     public function toggleVisibility() {
         if ($_SERVER["REQUEST_METHOD"] === "POST") {
