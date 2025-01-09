@@ -12,12 +12,21 @@
         public function __construct(){
             $this->ProjectController = new ProjectController();
             $this->UserController = new UserController();
-            $this->TagCategoryModel = new TagCategoryModel();
+            $this->TagCategoryModel = new TagCategoryModel();   
         }
 
         public function home(){
             $projects = $this->ProjectController->displayProjects();
             $users = $this->UserController->displayUsers();
+            $pendingData = $this->ProjectController->displayPendingRequests();
+    
+            $viewData = [
+                'projects' => $projects,
+                'users' => $users,
+                'pendingRequests' => $pendingData
+            ];
+    
+            extract($viewData);
             require_once "../src/view/projects.php";
         }
 
