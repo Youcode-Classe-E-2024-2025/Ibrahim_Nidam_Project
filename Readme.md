@@ -111,6 +111,7 @@ L'objectif est de créer un environnement où les membres d’équipes peuvent c
 **En tant que chef de projet :** 
 
 Gestion des projets :
+
 - Je veux pouvoir créer, modifier, et supprimer des projets pour structurer le travail de l’équipe.
 
 ​
@@ -119,13 +120,25 @@ Gestion des tâches :
 
 - Je veux assigner des tâches aux membres pour une meilleure répartition des responsabilités.
 - Catégoriser mes tâche en gérant des catégories.
-    Tager mes tâche en gérant des tags.
+- Tager mes tâche en gérant des tags.
+- Je veux pouvoir ajouter une description détaillée grace à la technologie MarkDown. **(new)**
+- Je veux pouvoir consulter une timeline des activités effectuées dans le projet. **(new)**
+
+​
+
+Gestion des utilisateur :
+
+- Manager les utilisateurs. **(new)**
+- Manager les rôles. **(new)**
+- Manager les permissions. **(new)**
 
 ​
 
 Suivi de l’avancement :
 
 - Je souhaite consulter l’état des tâches pour m'assurer que le projet avance comme prévu.
+
+- Je veux pouvoir exporter en excel un résumé des resultats de l'avancement du projet. **(new)**
 
 ​
 
@@ -145,11 +158,19 @@ Participation aux projets :
 
 ​
 
+Consultation des statistiques personnelles :
+
+- Je veux avoir un dashboard personnel afin de consulter ma progression. **(new)**
+
+
+​
+
 **En tant qu’utilisateur invité :**
 
 - Je veux pouvoir visualiser les projets publics pour découvrir les activités des équipes.
 
 - Je souhaite m’inscrire si je décide de rejoindre une équipe ou créer mes propres projets.
+
 
 
 
