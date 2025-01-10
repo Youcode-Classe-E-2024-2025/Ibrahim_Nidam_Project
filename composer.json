@@ -6,7 +6,9 @@
             "email": "ibrahim.nidam22@gmail.com"
         }
     ],
-    "require": {},
+    "require": {
+        "phpoffice/phpspreadsheet": "*"
+    },
     "autoload": {
         "psr-4": {
             "Controller\\": "src/controller/",

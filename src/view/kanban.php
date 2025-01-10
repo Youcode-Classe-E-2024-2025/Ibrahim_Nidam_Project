@@ -1,6 +1,9 @@
 <?php require_once "sections/head.php"; ?>
 
-
+<?php
+$projectId = $_GET['id'] ?? null;
+$projectName = $_GET['name'] ?? null;
+?>
             <div class="ml-10">
                 <a class="mx-2 text-sm font-semibold text-gray-600 hover:text-indigo-700" href="?action=home">Projects</a>
                 <a class="mx-2 text-sm font-semibold text-gray-600 hover:text-indigo-700" href="?action=dashboard">Dashboard</a>

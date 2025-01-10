@@ -91,31 +91,22 @@ use Utilities\CSRF;
                 }
         
                 $projeName = $_GET["name"];
-                $taskName = $_POST["title"];
-                $taskDesc = $_POST["description"];
-                $taskProj = $_GET["id"];  // Project ID
-                $taskCate = $_POST["category_id"];  // Category ID
-                $taskTag = $_POST["tag_id"] === "" ? null : $_POST["tag_id"];  // Tag ID or null
+                $taskName = $_POST["title"] ?? null;
+                $taskDesc = $_POST["description"] ?? null;
+                $taskProj = $_GET["id"] ?? null;
+                $taskCate = $_POST["category_id"] ?? null;
+                $taskTag = $_POST["tag_id"] === "" ? null : $_POST["tag_id"];
                 $taskUsers = $_POST["assigned_users"] ?? [];
         
-                // Use the `read` method to fetch `project_category_tag_id`
-                $conditions = [
-                    "project_id" => $taskProj,
-                    "category_id" => $taskCate,
-                ];
-                
-                if ($taskTag) {
-                    $conditions["tag_id"] = $taskTag;
+                if (!$taskName || !$taskProj || !$taskCate) {
+                    die("Error: Missing title, project, or category.");
                 }
         
-                $projectCategoryTag = $this->TaskModel->read("Project_Category_Tag", $conditions);
+                $projectCategoryTagId = $this->TaskModel->ensureProjectCategoryTag($taskProj, $taskCate, $taskTag);
         
-                if (empty($projectCategoryTag)) {
-                    header("Location: ?action=error&message=No matching Project Category Tag found");
-                    exit;
+                if (!$projectCategoryTagId) {
+                    die("Error: Failed to create Project Category Tag relationship.");
                 }
-        
-                $projectCategoryTagId = $projectCategoryTag[0]["id"];  // Get the first matching id
         
                 $data = [
                     "title" => $taskName,
@@ -140,8 +131,7 @@ use Utilities\CSRF;
                     header("Location: ?action=kanban&id=$taskProj&name=$projeName");
                     exit;
                 } else {
-                    header("Location: ?action=error=true");
-                    exit;
+                    die("Error: Failed to add task.");
                 }
             }
         }

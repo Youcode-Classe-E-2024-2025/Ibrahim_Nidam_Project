@@ -52,4 +52,28 @@
             $stmt->execute(["task_id" => $taskId]);
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
         }
+
+        public function ensureProjectCategoryTag($projectId, $categoryId, $tagId = null) {
+            $conditions = [
+                "project_id" => $projectId,
+                "category_id" => $categoryId
+            ];
+            if ($tagId) {
+                $conditions["tag_id"] = $tagId;
+            }
+            
+            $existing = $this->read("Project_Category_Tag", $conditions);
+            
+            if (!empty($existing)) {
+                return $existing[0]["id"];
+            }
+            
+            $data = [
+                "project_id" => $projectId,
+                "category_id" => $categoryId,
+                "tag_id" => $tagId
+            ];
+            
+            return $this->create("Project_Category_Tag", $data);
+        }
     }

@@ -7,12 +7,13 @@
     use Controller\TaskController;
     use Controller\UserController;
     use Controller\PermissionController;
-    
+    use Controller\StatController;
+
     session_start();
     
     $action = $_GET["action"] ?? null;
 
-    $validActions = ["login","deleteRole","updateRole", "logout", "signup","createRole", "home","roleManagment","permissions","updatePermission","deletePermission","createPermission", "dashboard", "addProject","kanban","addTask","toggleVisibility", "updateTaskStatus", "TagsAndCategories", "addTagOrCategory", "approveRequest", "disapproveRequest", "removeUserFromProject"];
+    $validActions = ["login","userData","exportStats","deleteRole","updateRole", "logout", "signup","createRole", "home","roleManagment","permissions","updatePermission","deletePermission","createPermission", "dashboard", "addProject","kanban","addTask","toggleVisibility", "updateTaskStatus", "TagsAndCategories", "addTagOrCategory", "approveRequest", "disapproveRequest", "removeUserFromProject"];
 
     if($action && !in_array($action, $validActions)){
         http_response_code(404);
@@ -107,6 +108,14 @@
         case "updateRole":
             $controller = new PermissionController();
             $controller->updateRole($_GET["id"] ?? null);
+            break;
+        case "userData":
+            $controller = new StatController();
+            $controller->getUserData($_SESSION['user_id']);
+            break;
+        case "exportStats":
+            $controller = new StatController();
+            $controller->exportUserStats($_SESSION['user_id']);
             break;
         default:
             http_response_code(404);
