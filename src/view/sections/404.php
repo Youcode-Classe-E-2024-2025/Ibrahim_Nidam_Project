@@ -1,5 +1,5 @@
 
-<?php require_once "head.php"; ?>
+<?php require_once "loginHead.php"; ?>
 
 
 <body class="bg-gradient-to-tr from-[#2a464e] via-[#243b42] to-[#1d2b31] h-screen overflow-hidden">

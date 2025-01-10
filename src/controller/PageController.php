@@ -43,4 +43,8 @@
             $tagsAndCategs = $this->TagCategoryModel->getAllCatsTags($projectId);
             require_once "../src/view/tags_cats.php";
         }
+
+        public function roleManagment(){
+            require_once "../src/view/roleManagment.php";
+        }
     }

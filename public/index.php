@@ -15,7 +15,7 @@
     
     $action = $_GET["action"] ?? null;
 
-    $validActions = ["login", "logout", "signup", "home", "dashboard", "addProject","kanban","addTask","toggleVisibility", "updateTaskStatus", "TagsAndCategories", "addTagOrCategory", "approveRequest", "disapproveRequest", "removeUserFromProject"];
+    $validActions = ["login", "logout", "signup", "home","roleManagment", "dashboard", "addProject","kanban","addTask","toggleVisibility", "updateTaskStatus", "TagsAndCategories", "addTagOrCategory", "approveRequest", "disapproveRequest", "removeUserFromProject"];
 
     if($action && !in_array($action, $validActions)){
         http_response_code(404);
@@ -77,6 +77,10 @@
         case "disapproveRequest":
         case "removeUserFromProject":
             $controller = new ProjectController();
+            $controller->$action();
+            break;
+        case "roleManagment":
+            $controller = new PageController();
             $controller->$action();
             break;
         default:

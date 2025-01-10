@@ -3,6 +3,7 @@
 
 
             <div class="ml-10">
+                <?php if(isset($_SESSION["user_role"]) && $_SESSION["user_role"] === "Admin"): ?><a id="projectsLink" class="mx-2 text-sm font-semibold text-indigo-700" href="?action=roleManagment">Role Managment</a><?php endif; ?>
                 <a id="projectsLink" class="mx-2 text-sm font-semibold text-indigo-700" href="?action=home">Projects</a>
                 <a class="mx-2 text-sm font-semibold text-gray-600 hover:text-indigo-700" href="?action=dashboard">Dashboard</a>
                 <a id="pendingLink" class="mx-2 text-sm font-semibold text-gray-600 cursor-pointer" onclick="showTab('pending')">Pending Requests</a>

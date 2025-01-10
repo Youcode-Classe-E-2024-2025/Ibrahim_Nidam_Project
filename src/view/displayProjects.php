@@ -5,7 +5,7 @@
                 $currentUserId = $_SESSION["user_id"] ?? null; // If not set, default to null
                 $isOwner = ($currentUserId !== null && $currentUserId == $displaying["manager_id"]);
                 $isAssigned = ($currentUserId !== null && in_array($currentUserId, $displaying["assigned_users"] ?? []));
-                $isAllowed = ($isOwner || $isAssigned || $_SESSION["user_role"] === "Admin");
+                $isAllowed = ($isOwner || $isAssigned || (isset($_SESSION["user_role"]) && $_SESSION["user_role"] === "Admin"));
             ?>
             <div data-project-id="<?= htmlspecialchars($displaying["id"]) ?>" class="bg-white cursor-pointer bg-opacity-90 rounded p-5 text-gray-800 shadow-md hover:bg-opacity-100 transition-colors relative group">
                 <?php if ($isAllowed): ?>
