@@ -1,4 +1,4 @@
-<?php require_once "head.php"; ?>
+<?php require_once "loginHead.php"; ?>
 
 <body class="flex items-center justify-center min-h-screen bg-cover bg-center bg-no-repeat" style="background-image: url('../assets/images/gratisography-augmented-reality-1170x780.jpg');">
     <div class="relative z-10 w-full max-w-md p-8 bg-white/10 border border-white/50 rounded-lg backdrop-blur-md">
