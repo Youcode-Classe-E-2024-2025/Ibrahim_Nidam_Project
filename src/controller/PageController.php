@@ -1,6 +1,7 @@
 <?php
     namespace Controller;
 
+    use Model\PermissionModel;
     use Model\TagCategoryModel;
 
     // use Controller\ProjectController;
@@ -12,7 +13,8 @@
         public function __construct(){
             $this->ProjectController = new ProjectController();
             $this->UserController = new UserController();
-            $this->TagCategoryModel = new TagCategoryModel();   
+            $this->TagCategoryModel = new TagCategoryModel();  
+            $this->PermissionModel = new PermissionModel(); 
         }
 
         public function home(){
@@ -44,7 +46,29 @@
             require_once "../src/view/tags_cats.php";
         }
 
-        public function roleManagment(){
+        public function roleManagment() {
+            $roles = $this->PermissionModel->read('Role');
+            $roleId = $_GET['id'] ?? null;
+            $rolePermissions = [];
+            $roleName = '';
+        
+            if ($roleId) {
+                $role = $this->PermissionModel->read('Role', ['id' => $roleId]);
+                $roleName = $role[0]['name'] ?? '';
+        
+                $rolePermissionsRaw = $this->PermissionModel->read('Role_Permission', ['role_id' => $roleId]);
+                
+                foreach ($rolePermissionsRaw as $perm) {
+                    $rolePermissions[] = (int)$perm['permission_id']; 
+                }
+            }
+        
+            $permissions = $this->PermissionModel->read('Permission');
+            $permissionIds = [];
+            foreach ($permissions as $permission) {
+                $permissionIds[$permission['name']] = (int)$permission['id']; 
+            }
             require_once "../src/view/roleManagment.php";
         }
+        
     }

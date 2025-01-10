@@ -12,7 +12,7 @@
     
     $action = $_GET["action"] ?? null;
 
-    $validActions = ["login", "logout", "signup","createRole", "home","roleManagment","permissions","updatePermission","deletePermission","createPermission", "dashboard", "addProject","kanban","addTask","toggleVisibility", "updateTaskStatus", "TagsAndCategories", "addTagOrCategory", "approveRequest", "disapproveRequest", "removeUserFromProject"];
+    $validActions = ["login","deleteRole","updateRole", "logout", "signup","createRole", "home","roleManagment","permissions","updatePermission","deletePermission","createPermission", "dashboard", "addProject","kanban","addTask","toggleVisibility", "updateTaskStatus", "TagsAndCategories", "addTagOrCategory", "approveRequest", "disapproveRequest", "removeUserFromProject"];
 
     if($action && !in_array($action, $validActions)){
         http_response_code(404);
@@ -99,6 +99,14 @@
         case "createRole":
             $controller = new PermissionController();
             $controller->$action();
+            break;
+        case "deleteRole":
+            $controller = new PermissionController();
+            $controller->$action($_GET["id"] ?? null);
+            break;
+        case "updateRole":
+            $controller = new PermissionController();
+            $controller->updateRole($_GET["id"] ?? null);
             break;
         default:
             http_response_code(404);
