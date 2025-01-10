@@ -73,6 +73,33 @@ CREATE TABLE IF NOT EXISTS Project_Category_Tag (
     FOREIGN KEY (tag_id) REFERENCES Tag(id) ON DELETE CASCADE
 );
 
+CREATE TABLE IF NOT EXISTS Role (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL UNIQUE
+);
+
+CREATE TABLE IF NOT EXISTS Permission (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL UNIQUE
+);
+
+CREATE TABLE IF NOT EXISTS Role_Permission (
+    role_id INT NOT NULL,
+    permission_id INT NOT NULL,
+    PRIMARY KEY (role_id, permission_id),
+    FOREIGN KEY (role_id) REFERENCES Role(id) ON DELETE CASCADE,
+    FOREIGN KEY (permission_id) REFERENCES Permission(id) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS User_Role (
+    person_id INT NOT NULL,
+    role_id INT NOT NULL,
+    PRIMARY KEY (person_id, role_id),
+    FOREIGN KEY (person_id) REFERENCES Person(id) ON DELETE CASCADE,
+    FOREIGN KEY (role_id) REFERENCES Role(id) ON DELETE CASCADE
+);
+
+
 -- Insert users
 INSERT INTO Person (name, email, password, role) VALUES
 ('Ibrahim', 'a@a.com', '$2a$12$BNMYsiPpHKpGV4/5oEZlV.N4S.ZHo2Fp8E5v9MHZKO6frTiUErUR6', 'Admin'),
@@ -130,3 +157,7 @@ INSERT INTO Project_Assignment (project_id, person_id, role) VALUES
 (3, 4, 'Member'), -- Youssef is the manager of Project Gamma
 (3, 2, 'Pending Request'); -- Nidam requested to join Project Gamma
 
+INSERT INTO Permission (name) VALUES 
+('PROJECT CREATE'), ('PROJECT READ'), ('PROJECT UPDATE'), ('PROJECT DELETE'),
+('TASK CREATE'), ('TASK READ'), ('TASK UPDATE'), ('TASK DELETE'),
+('USER CREATE'), ('USER READ'), ('USER UPDATE'), ('USER DELETE');

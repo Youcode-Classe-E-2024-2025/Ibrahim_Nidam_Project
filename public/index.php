@@ -6,16 +6,13 @@
     use Controller\TagCategoryController;
     use Controller\TaskController;
     use Controller\UserController;
+    use Controller\PermissionController;
     
     session_start();
-    header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
-    header("Pragma: no-cache");
-    header("Expires: 0");
-    
     
     $action = $_GET["action"] ?? null;
 
-    $validActions = ["login", "logout", "signup", "home","roleManagment", "dashboard", "addProject","kanban","addTask","toggleVisibility", "updateTaskStatus", "TagsAndCategories", "addTagOrCategory", "approveRequest", "disapproveRequest", "removeUserFromProject"];
+    $validActions = ["login", "logout", "signup","createRole", "home","roleManagment","permissions","updatePermission","deletePermission","createPermission", "dashboard", "addProject","kanban","addTask","toggleVisibility", "updateTaskStatus", "TagsAndCategories", "addTagOrCategory", "approveRequest", "disapproveRequest", "removeUserFromProject"];
 
     if($action && !in_array($action, $validActions)){
         http_response_code(404);
@@ -81,6 +78,26 @@
             break;
         case "roleManagment":
             $controller = new PageController();
+            $controller->$action();
+            break;
+        case "permissions":
+            $controller = new PermissionController();
+            $controller->$action();
+            break;
+        case "createPermission":
+            $controller = new PermissionController();
+            $controller->$action();
+            break;
+        case "deletePermission":
+            $controller = new PermissionController();
+            $controller->$action($_GET["id"] ?? null);
+            break;
+        case "updatePermission":
+            $controller = new PermissionController();
+            $controller->$action();
+            break;
+        case "createRole":
+            $controller = new PermissionController();
             $controller->$action();
             break;
         default:
